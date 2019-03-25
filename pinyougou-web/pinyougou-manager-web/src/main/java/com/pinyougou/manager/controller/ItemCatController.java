@@ -3,6 +3,7 @@ package com.pinyougou.manager.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.ItemCat;
 import com.pinyougou.service.ItemCatService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ public class ItemCatController {
 
     /** 根据父级id查询商品分类 */
     @GetMapping("/findItemCatByParentId")
+    @CrossOrigin(origins = "http://shop.pinyougou.com")
     public List<ItemCat> findItemCatByParentId(Long parentId){
         return itemCatService.findItemCatByParentId(parentId);
     }

@@ -60,7 +60,7 @@ app.controller('goodsController', function($scope, $controller, baseService){
 
     // 根据父级id查询商品分类
     $scope.findItemCatByParentId = function (parentId, name) {
-        baseService.sendGet("/itemCat/findItemCatByParentId?parentId="
+        baseService.sendGet("http://manager.pinyougou.com/itemCat/findItemCatByParentId?parentId="
             + parentId).then(function(response){
             // 获取响应数据 List<ItemCat> [{},{}]
             $scope[name] = response.data;

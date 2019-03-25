@@ -1,5 +1,5 @@
 // 商品详情控制器
-app.controller('itemController', function ($scope) {
+app.controller('itemController', function ($scope, $http) {
 
     // 定义购买数量加减的方法
     $scope.addNum = function (x) {
@@ -56,7 +56,19 @@ app.controller('itemController', function ($scope) {
 
     // 加入购物车按钮事件绑定
     $scope.addToCart = function () {
-        alert("SKU的id: " + $scope.sku.id + ", 购买数量：" + $scope.num);
+
+        // 发送跨域异步请求
+        $http.get("http://cart.pinyougou.com/cart/addCart?itemId="
+            + $scope.sku.id + "&num=" + $scope.num, {withCredentials : true})
+            .then(function(response){
+                // 获取响应数据
+                if(response.data){
+                    // 跳转到购物车系统
+                    location.href = "http://cart.pinyougou.com";
+                }else {
+                    alert("加入购物车失败！");
+                }
+        });
     };
 
 

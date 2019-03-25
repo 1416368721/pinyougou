@@ -14,6 +14,9 @@
     <security:http pattern="/js/**" security="none"/>
     <security:http pattern="/plugins/**" security="none"/>
     <security:http pattern="/login.html" security="none"/>
+    <security:http pattern="/itemCat/findItemCatByParentId" security="none"/>
+
+
     <!-- 配置需要拦截的http请求URL -->
     <security:http>
         <!-- 需要拦截的请求URL，用什么角色访问 ROLE_* -->

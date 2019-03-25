@@ -25,6 +25,7 @@
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
+
 	<!-- 配置全局编码过滤器 POST请求 -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 加载属性文件 -->
+    <context:property-placeholder location="classpath*:props/*.properties"/>
+
+    <!-- 导入数据访问配置文件 -->
+    <import resource="classpath:applicationContext-mapper.xml"/>
+    <!-- 导入redis配置文件 -->
+    <import resource="classpath:applicationContext-redis.xml"/>
+
+    <!-- 配置分布式id生成器 -->
+    <bean id="idWorker" class="com.pinyougou.common.util.IdWorker">
+        <!-- 数据中心id (数据库) -->
+        <constructor-arg name="datacenterId" value="0"/>
+        <!-- 工作id (服务器) -->
+        <constructor-arg name="workerId" value="0"/>
+    </bean>
+
+    <!--########### 配置Dubbo服务提供者 ###########-->
+    <!-- 配置当前应用名称 -->
+    <dubbo:application name="pinyougou-order-service"/>
+    <!-- 使用zookeeper注册中心注册服务地址 -->
+    <dubbo:registry address="zookeeper://192.168.12.131:2181" />
+
+    <!-- 用dubbo协议在20886端口暴露服务(产生服务地址)
+        服务名称：com.pinyougou.service.BrandService
+    -->
+    <dubbo:protocol name="dubbo" port="20886"/>
+    <!-- 配置包扫描的方式，声明需要暴露的服务 -->
+    <dubbo:annotation package="com.pinyougou.order.service.impl"/>
+
+</beans>

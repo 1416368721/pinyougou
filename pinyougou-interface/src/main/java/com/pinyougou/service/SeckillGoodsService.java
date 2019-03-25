@@ -31,4 +31,9 @@ public interface SeckillGoodsService {
 	/** 多条件分页查询 */
 	List<SeckillGoods> findByPage(SeckillGoods seckillGoods, int page, int rows);
 
+	/** 查询秒杀商品 */
+    List<SeckillGoods> findSeckillGoods();
+
+    /** 从Redis中获取秒杀商品 */
+	SeckillGoods findSeckillGoodsFromRedis(Long id);
 }
