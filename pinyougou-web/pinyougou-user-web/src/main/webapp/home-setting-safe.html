@@ -18,7 +18,7 @@
 </head>
 <body ng-app="pinyougou"
 	  ng-controller="userController"
-	  ng-init="loadUsername()">
+	  ng-init="loadUsername();getName()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -334,8 +334,9 @@ $(function(){
                                     <div class="control-group">
                                         <label class="control-label">用户名：</label>
                                         <div class="controls">
-                                            <input id="pwdid" ng-model="loginName" class="fn-tinput" data-rule-remote="http://www.baidu.com" type="text" name="OldPassword" placeholder="输入昵称"
-                                                required data-msg-required="请输入昵称" />
+                                            <input id="pwdid" value="{{loginName}}" class="fn-tinput" data-rule-remote="http://www.baidu.com"
+												   type="text" readonly="readonly" name="OldPassword" placeholder="输入昵称"
+                                                required data-msg-required="" />
 
                                         </div>
                                     </div>

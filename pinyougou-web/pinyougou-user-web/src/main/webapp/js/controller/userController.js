@@ -124,10 +124,8 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
             if (response.data) {
                 baseService.sendPost("/user/updatePhone", $scope.user).then(function (response) {
                     if (response.data) {
-                        alert("绑定成功");
                         location.href = "home-setting-address-complete.html";
                     } else {
-
                         alert("绑定失败");
                         location.reload();
                     }
