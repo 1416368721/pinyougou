@@ -3,6 +3,8 @@ package com.pinyougou.service;
 import com.pinyougou.pojo.User;
 import java.util.List;
 import java.io.Serializable;
+import java.util.Map;
+
 /**
  * UserService 服务接口
  * @date 2019-02-27 10:03:32
@@ -36,4 +38,10 @@ public interface UserService {
 
 	/** 检验短信验证码 */
 	boolean checkSmsCode(String phone, String code);
+
+	/** 查询用户手机号码 */
+	Map<String, String> findUserPhone(String username);
+
+	/** 修改用户手机号码 */
+	void updatePhone(User user);
 }

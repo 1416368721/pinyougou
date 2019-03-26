@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.PayLog;
 
@@ -38,4 +39,13 @@ public interface OrderService {
 
     /** 支付成功，业务处理 */
 	void updateStatus(String outTradeNo, String transactionId);
+
+	/**分页查询订单*/
+    PageResult findByPageByUserId(Order order, Integer page, Integer rows);
+
+    //根据orderId查询订单
+	Order findOrderByOrderId(Long orderId);
+
+	/**保存订单到redis*/
+	void saveOrderToRedis(Order order, String userId);
 }
