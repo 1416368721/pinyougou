@@ -67,7 +67,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public PageResult findByPage(Seller seller, int page, int rows) {
+    public PageResult findByPage(Seller seller, Integer page, Integer rows) {
         try{
             // 开始分页
             PageInfo<Seller> pageInfo = PageHelper.startPage(page, rows).doSelectPageInfo(new ISelect() {
