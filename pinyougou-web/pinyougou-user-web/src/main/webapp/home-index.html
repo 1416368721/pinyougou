@@ -14,7 +14,7 @@
 </head>
 <body ng-app="pinyougou"
       ng-controller="indexController"
-      ng-init="showName()">
+      ng-init="loadUsername()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -156,7 +156,8 @@ $(function(){
                         <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
                         <div class="person-account">
                             <span class="name">{{loginName}}</span>
-                            <span class="safe"><a href="/logout">退出登录 </a></span>
+                            <span class="safe">
+                                <a href="http://sso.pinyougou.com/logout?service={{redirectUrl}}">退出登录 </a></span>
                         </div>
                         <div class="clearfix"></div>
                     </div>

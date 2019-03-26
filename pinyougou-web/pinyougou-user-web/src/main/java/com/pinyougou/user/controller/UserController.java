@@ -19,28 +19,43 @@ public class UserController {
     @Reference(timeout = 10000)
     private UserService userService;
 
-    /** 用户注册 */
+    /**
+     * 用户注册
+     */
     @PostMapping("/save")
-    public boolean save(@RequestBody User user, String code){
-        try{
+    public boolean save(@RequestBody User user, String code) {
+        try {
             // 检验短信验证码
             boolean flag = userService.checkSmsCode(user.getPhone(), code);
             if (flag) {
                 userService.save(user);
             }
             return flag;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
     }
 
-    /** 发送短信验证码 */
+    /**
+     * 发送短信验证码
+     */
     @GetMapping("/sendSmsCode")
-    public boolean sendSmsCode(String phone){
-        try{
+    public boolean sendSmsCode(String phone) {
+        try {
             return userService.sendSmsCode(phone);
-        }catch (Exception ex){
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @PostMapping("/updatePassword")
+    public boolean updatePassword(@RequestBody User user) {
+        try {
+            userService.update(user);
+            return true;
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
