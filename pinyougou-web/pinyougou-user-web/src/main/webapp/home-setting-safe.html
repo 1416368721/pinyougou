@@ -326,7 +326,7 @@ $(function(){
                     <div class="body userSafe">
                         <ul class="sui-nav nav-tabs nav-large nav-primary ">
                             <li class="active"><a href="#one" data-toggle="tab">密码设置</a></li>
-                            <li><a href="#two" data-toggle="tab">绑定手机</a></li>
+                            <li><a href="#two" data-toggle="tab" ng-click="findUserPhone()">绑定手机</a></li>
                         </ul>
                         <div class="tab-content ">
                             <div id="one" class="tab-pane active">
@@ -386,28 +386,30 @@ $(function(){
 
                                     <div class="control-group">
                                         <label class="control-label">验证方式：</label>
-                                        <div class="controls fixed">手机验证（138****9856）</div>                            
+                                        <div class="controls fixed">手机验证（{{data.hidePhone}}）</div>
                                     </div>
                                      <div class="control-group">
                                         <label for="inputcode" class="control-label">验证码：</label>
                                         <div class="controls">
-                                            <input name="inputcode" type="text" id="inputcode">
+                                            <input name="inputcode" ng-model="verifyCode" type="text" id="inputcode">
                                         </div>
                                         <div class="controls">
-                                            验证码
+											<img src="/verify"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label for="inputRepassword" class="control-label">短信验证码：</label>
+                                        <label class="control-label">短信验证码：</label>
                                         <div class="controls">
-                                            <input name="msgcode" type="text" id="msgcode">
+                                            <input name="msgcode" ng-model="smsCode" type="text" id="msgcode">
                                         </div>
                                         <div class="controls">
-                                            <button class="sui-btn btn-info">发送</button>
+                                            <button class="sui-btn btn-info"
+													ng-click="sendSmsCode()"
+													ng-disabled="flag">{{tipMsg}}</button>
                                         </div>
                                     </div>
                                     <div class="control-group next-btn">
-                                        <a class="sui-btn btn-primary" href="home-setting-address-phone.html">下一步</a>
+                                        <a class="sui-btn btn-primary" ng-click="checkCode()">下一步</a>
                                     </div>
                                 </form>
                             </div>

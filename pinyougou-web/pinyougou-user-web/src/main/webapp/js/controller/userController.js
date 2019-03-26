@@ -78,6 +78,7 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
 
     $scope.setUser = {};
 
+    // 修改密码
     $scope.updatePassword = function () {
         $scope.setUser.username = $scope.loginName;
 
@@ -92,6 +93,50 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
                 }
             })
         }
-    }
+    };
+
+    // 查询手机号码
+    $scope.findUserPhone = function () {
+        var username = $scope.loginName;
+        baseService.sendGet("/user/findUserPhone?username=" + username).then(function (response) {
+            $scope.data = response.data;
+            $scope.user.phone = $scope.data.phone;
+
+        })
+    };
+
+    // 检验验证码和短信验证码
+    $scope.checkCode = function () {
+        baseService.sendGet("/user/checkCode?verifyCode="
+            + $scope.verifyCode + "&smsCode=" + $scope.smsCode + "&phone=" + $scope.user.phone).then(function (response) {
+            if (response.data) {
+                location.href = "home-setting-address-phone.html";
+            } else {
+                alert("验证码或短信验证码错误");
+            }
+        })
+    };
+
+    $scope.secondCheck = function () {
+        $scope.user.username = $scope.loginName;
+        baseService.sendGet("/user/checkCode?verifyCode="
+            + $scope.verifyCode + "&smsCode=" + $scope.smsCode + "&phone=" + $scope.user.phone).then(function (response) {
+            if (response.data) {
+                baseService.sendPost("/user/updatePhone", $scope.user).then(function (response) {
+                    if (response.data) {
+                        alert("绑定成功");
+                        location.href = "home-setting-address-complete.html";
+                    } else {
+
+                        alert("绑定失败");
+                        location.reload();
+                    }
+                });
+
+            } else {
+                alert("验证码或短信验证码错误");
+            }
+        })
+    };
 
 });

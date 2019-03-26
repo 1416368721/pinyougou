@@ -69,6 +69,7 @@ public class SmsServiceImpl implements SmsService {
             // hint 此处可能会抛出异常，注意catch
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
 
+            System.out.println(sendSmsResponse.getCode());
             return "OK".equals(sendSmsResponse.getCode());
         }catch (Exception ex){
             throw new RuntimeException(ex);
