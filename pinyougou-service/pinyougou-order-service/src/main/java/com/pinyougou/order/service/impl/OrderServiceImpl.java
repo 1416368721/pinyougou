@@ -1,7 +1,13 @@
 package com.pinyougou.order.service.impl;
+import java.util.Date;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pinyougou.MyOrder;
 import com.pinyougou.cart.Cart;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.common.util.IdWorker;
 import com.pinyougou.mapper.OrderItemMapper;
 import com.pinyougou.mapper.OrderMapper;
@@ -13,11 +19,11 @@ import com.pinyougou.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 订单服务接口实现类
@@ -218,5 +224,62 @@ public class OrderServiceImpl implements OrderService {
         }catch (Exception ex){
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * 根据用户id查询订单
+     * @param order
+     * @param page
+     * @param rows
+     * @return
+     */
+    @Override
+    public PageResult findByPageByUserId(Order order, Integer page, Integer rows) {
+        PageInfo<Order> pageInfo = PageHelper.startPage(page, rows).doSelectPageInfo(new ISelect() {
+            @Override
+            public void doSelect() {
+                orderMapper.select(order);
+            }
+        });
+        long total = pageInfo.getTotal();
+        List<Order> orderList = pageInfo.getList();
+        List<MyOrder> myOrderList = new ArrayList<>();
+        for (Order order1 : orderList) {
+            MyOrder myOrder = new MyOrder();
+            myOrder.setOrder(order1);
+            List<OrderItem> orderItemList = orderItemMapper.findOrderItemByOrderId(order1.getOrderId());
+            myOrder.setOrderItems(orderItemList);
+            myOrderList.add(myOrder);
+        }
+        return new PageResult(total,myOrderList);
+    }
+
+    /**
+     * 根据orderId查询订单
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Order findOrderByOrderId(Long orderId) {
+       return orderMapper.selectByPrimaryKey(orderId);
+    }
+    /**
+     * 保存订单到Redis中
+     * @param order
+     * @param userId
+     */
+    @Override
+    public void saveOrderToRedis(Order order, String userId) {
+        PayLog payLog = new PayLog();
+        payLog.setOutTradeNo(String.valueOf(idWorker.nextId()));
+        payLog.setCreateTime(new Date());
+        BigDecimal totalMoney = order.getPayment().multiply(new BigDecimal(100));
+        payLog.setTotalFee(totalMoney.longValue());
+        payLog.setUserId(userId);
+        payLog.setTradeState("0");
+        payLog.setOrderList(String.valueOf(order.getOrderId()));
+        payLog.setPayType(order.getPaymentType());
+        payLogMapper.insertSelective(payLog);
+        redisTemplate.boundValueOps("payLog_"+userId).set(payLog);
     }
 }
