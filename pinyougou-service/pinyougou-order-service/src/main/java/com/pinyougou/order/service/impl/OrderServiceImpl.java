@@ -11,6 +11,7 @@ import com.pinyougou.pojo.OrderItem;
 import com.pinyougou.pojo.PayLog;
 import com.pinyougou.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,8 +45,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void save(Order order) {
         try {
-
+//            List<Cart> idsCarts = (List<Cart>) redisTemplate.boundValueOps("idSelectedCart_" + order.getUserId());
             // 1. 从Redis数据库获取该用户的购物车
+//            redisTemplate.boundValueOps("idSelectedCart_" + order.getUserId()).set(order);
             List<Cart> carts = (List<Cart>) redisTemplate
                     .boundValueOps("idSelectedCart_" + order.getUserId()).get();
 
