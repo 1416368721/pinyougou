@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>我的订单</title>
-    <link rel="icon" href="assets/img/favicon.ico"/>
+	<link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/webbase.css"/>
+    <link rel="icon" href="assets/img/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css"/>
-
+	<!--<script src="plugins/jquery/jquery-2.2.3.min.js"></script>-->
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/plugins/angularjs/angular.min.js"></script>
-    <script src="/js/base.js"></script>
+    <!-- 分页插件 -->
+    <link rel="stylesheet" href="/plugins/angularjs/pagination.css"/>
+    <script src="/plugins/angularjs/pagination.js"></script>
+    <!-- 分页插件 -->
+    <script src="/js/base-pagination.js"></script>
     <script src="/js/service/baseService.js"></script>
-    <script src="/js/controller/indexController.js"></script>
+    <script src="/js/controller/baseController.js"></script>
+    <script src="/js/controller/indexController2.js"></script>
 </head>
 <body ng-app="pinyougou"
-      ng-controller="indexController"
-      ng-init="loadUsername()">
+      ng-controller="indexController2"
+      ng-init="showName()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -156,8 +163,7 @@ $(function(){
                         <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
                         <div class="person-account">
                             <span class="name">{{loginName}}</span>
-                            <span class="safe">
-                                <a href="http://sso.pinyougou.com/logout?service={{redirectUrl}}">退出登录 </a></span>
+                            <span class="safe"><a href="/logout">退出登录 </a></span>
                         </div>
                         <div class="clearfix"></div>
                     </div>
