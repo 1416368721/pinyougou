@@ -1,5 +1,6 @@
 package com.pinyougou.mapper;
 
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -19,6 +20,7 @@ public interface UserMapper extends Mapper<User>{
     @Update("update tb_user set password = #{password}, updated = #{updated} where username = #{username} ")
     void updateByUsername(@Param("username") String username,@Param("password") String password,@Param("updated") Date updated);
 
+    void saveUserInfo(User user);
     /** 根据用户名查询用户 */
     @Select("select * from tb_user where username = #{username}")
     User findUserByUsername(String username);
