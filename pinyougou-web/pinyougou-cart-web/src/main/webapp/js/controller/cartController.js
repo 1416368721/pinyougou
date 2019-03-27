@@ -29,6 +29,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                 }
             });
     };
+
     //商家处选择框
     $scope.updateSelection=function ($event,id,i) {
         if($event.target.checked){
@@ -37,10 +38,11 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             var idx=$scope.sellerName.indexOf(id);
             $scope.sellerName.splice(idx,1);
         }
-        // alert($scope.ids);
+
         $scope.checkedArr[i]=$event.target.checked;
         $scope.ckAll=$scope.carts.length==$scope.sellerName.length;
-        // alert($scope.sellerName);
+
+        $scope.all2 = $scope.ckAll;
     };
     //最大的全选
     $scope.checkAll=function ($event) {
@@ -50,16 +52,27 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             $scope.checkedArr[i]=$event.target.checked;
             if($event.target.checked){
                 $scope.sellerName.push($scope.carts[i].sellerName);
-                // var orderItems=$scope.carts[i];
-                // for(var j=0;j<orderItems.length;j++){
-                //     $scope.ids.push(orderItems[j].itemId)
-                // }
-                // $scope.checkedArr=
             }
         }
 
         $scope.ckAll=$scope.carts.length==$scope.ids.length;
     };
+
+    $scope.checkAll2=function ($event) {
+        $scope.sellerName=[];
+
+        for(var i=0;i<$scope.carts.length;i++){
+            $scope.checkedArr[i]=$event.target.checked;
+            if($event.target.checked){
+                $scope.sellerName.push($scope.carts[i].sellerName);
+            }
+        }
+
+        $scope.all =$scope.carts.length==$scope.ids.length;
+
+        $scope.ckAll = $scope.all2;
+    };
+
     //商品选择
     $scope.updateSelection2=function ($event,id,i,sellerName) {
         // alert(sellerName);
@@ -71,17 +84,13 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             var idx = $scope.ids.indexOf(id);
             $scope.ids.splice(idx, 1);
         }
-        // alert($scope.ids);
+
         for (var b = 0; $scope.carts.length > b;b++) {
             var orderItems = $scope.carts[b].orderItems;
-            // alert(orderItems);
             for (var c = 0; orderItems.length > c; c++) {
                 var orderItem=orderItems[c];
-                // alert("遍历："+orderItem.itemId);
                 for (var a = 0; $scope.ids.length > a; a++) {
-                    // alert($scope.ids[a]);
                     if (orderItem.itemId == $scope.ids[a]){
-                        // alert(orderItems[c].itemId);
                         $scope.isSelectNum += orderItems[c].num;
                         $scope.isSelectMoney += orderItems[c].totalFee;
                     }
@@ -89,15 +98,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             }
         }
     };
-        // alert($scope.ids);
-        // $scope.checkedArr[i]=$event.target.checked;
-        // $scope.ckAll=$scope.carts.length==$scope.sellerName.length;
-        // alert($scope.sellerName);
-    //    通过商家名来获取
-    //     for(var i=0;$scope.carts.length>i;i++){
-    //         if($scope.carts[i].sellerName==sellerName){
-    //         // alert($scope.carts[i].sellerName);
-    //             $scope.checkedArr[i]=$event.target.checked;
 
 
 

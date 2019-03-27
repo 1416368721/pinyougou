@@ -9,9 +9,11 @@ import com.pinyougou.MyOrder;
 import com.pinyougou.cart.Cart;
 import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.common.util.IdWorker;
+import com.pinyougou.mapper.CollectMapper;
 import com.pinyougou.mapper.OrderItemMapper;
 import com.pinyougou.mapper.OrderMapper;
 import com.pinyougou.mapper.PayLogMapper;
+import com.pinyougou.pojo.Item;
 import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.OrderItem;
 import com.pinyougou.pojo.PayLog;
@@ -47,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
     private PayLogMapper payLogMapper;
     @Autowired
     private IdWorker idWorker;
+    @Autowired
+    private CollectMapper collectMapper;
 
     @Override
     public void save(Order order) {
@@ -284,4 +288,5 @@ public class OrderServiceImpl implements OrderService {
         payLogMapper.insertSelective(payLog);
         redisTemplate.boundValueOps("payLog_"+userId).set(payLog);
     }
+
 }
