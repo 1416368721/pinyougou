@@ -6,7 +6,7 @@ app.controller('indexController2', function ($scope, $controller, baseService) {
 
     // 获取登录用户名
     $scope.showLoginName = function () {
-        baseService.sendGet("/showLoginName").then(function (response) {
+        baseService.sendGet("user/showName").then(function (response) {
             // 获取响应数据
             $scope.loginName = response.data.loginName;
         });

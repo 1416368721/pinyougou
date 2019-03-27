@@ -30,7 +30,7 @@ public interface SellerService {
 	List<Seller> findAll();
 
 	/** 多条件分页查询 */
-	PageResult findByPage(Seller seller, int page, int rows);
+	PageResult findByPage(Seller seller, Integer page, Integer rows);
 
 	/** 修改商家的审核状态 */
 	void updateStatus(String sellerId, String status);
