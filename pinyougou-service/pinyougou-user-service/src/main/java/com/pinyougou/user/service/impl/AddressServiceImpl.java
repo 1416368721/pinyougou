@@ -35,7 +35,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(Address address) {
-
+        try {
+            addressMapper.insertSelective(address);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override

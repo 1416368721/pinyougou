@@ -78,6 +78,19 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         }
     };
 
+    //这里是存储是通过不同user来传的，那个ids根本就没有用，这里要传过去的的address
+    $scope.saveOrUpdate = function () {
+        baseService.save("/address/saveOrUpdate",$scope.address).then(function (response) {
+            //返回页面的是布尔值 要么是true要么是false
+            if (response.data){
+                //清空表单数据
+                $scope.address = {};
+            }else {
+                alert("添加地址失败！");
+            }
+        })
+    }
+
     $scope.reload = function () {
         $scope.findAll();
     }
