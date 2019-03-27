@@ -1,6 +1,6 @@
 app.controller('passwordController' ,function($scope, $controller, baseService){
     /** 指定继承baseController */
-    $controller('indexController',{$scope:$scope});
+    $controller('indexController2',{$scope:$scope});
     $scope.entity={oldPassword:'',newPassword:''};
     // alert($scope.loginName);
     $scope.findPassword=function () {
