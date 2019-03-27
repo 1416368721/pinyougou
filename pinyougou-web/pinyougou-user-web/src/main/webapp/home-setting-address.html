@@ -9,8 +9,24 @@
     
 	<link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css"/>
 
+	<script src="/plugins/jquery/jquery-2.2.3.min.js"></script>
+	<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="/plugins/angularjs/angular.min.js"></script>
+	<!-- 分页插件 -->
+	<link rel="stylesheet" href="/plugins/angularjs/pagination.css"/>
+	<script src="/plugins/angularjs/pagination.js"></script>
+	<!-- 分页插件 -->
+	<script src="/js/base-pagination.js"></script>
+	<script src="/js/service/baseService.js"></script>
+	<script src="/js/controller/baseController.js"></script>
+	<script src="/js/controller/addressController.js"></script>
 </head>
-<body>
+<body ng-app="pinyougou"
+	  ng-controller="addressController"
+	  ng-init="findAll()"
+      class="hold-transition skin-red sidebar-mini">
+    >
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -202,7 +218,7 @@ $(function(){
                             <span class="clearfix"></span>
                         </div>
                         <div class="address-detail">
-                            <table class="sui-table table-bordered">
+                            <table id="dataList" class="sui-table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                     <tr>
                                         <th>姓名</th>
@@ -212,29 +228,30 @@ $(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>刘田田</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
+                                    <tr ng-repeat="entity in dataList">
+                                        <td>{{entity.contact}}</td>
+                                        <td>{{entity.address}}</td>
+                                        <td>{{entity.mobile}}</td>
                                         <td>
                                             <a href="#">编辑</a>
-                                            <a href="#">删除</a>
+                                            <!--<button type="button" class="btn btn-default" ng-click="delete()">删除</button>-->
                                             默认地址
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>沈沉</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            <a href="#">设为默认</a>
-                                        </td>
-                                    </tr>
-                                    
+                                    <!--<tr>-->
+                                        <!--<td>沈沉</td>-->
+                                        <!--<td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>-->
+                                        <!--<td>1774***********4</td>-->
+                                        <!--<td>-->
+                                            <!--<a href="#">编辑</a>-->
+                                            <!--<a href="#">删除</a>-->
+                                            <!--<a href="#">设为默认</a>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--{{dataList}}-->
                                 </tbody>
-                            </table>                          
+                            </table>
+							<!--<tm-pagination conf="paginationConf"/>-->
                         </div>
                         <!--新增地址弹出层-->
                          <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit" style="width:580px;">
