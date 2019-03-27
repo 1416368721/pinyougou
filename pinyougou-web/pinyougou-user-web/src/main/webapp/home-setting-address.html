@@ -302,14 +302,15 @@ $(function(){
 												<div class="controls">
 													<div data-toggle="distpicker">
 														<div class="form-group area">
-															<select ng-model="address.province" class="form-control" id="province1" ng-options="i.provinceId as i.province for i in provincesList"></select>
+															<select ng-model="address.provinceId" class="form-control" id="province1" ng-options="i.provinceId as i.province for i in provincesList"></select>
 														</div>
 														<div class="form-group area">
-															<select ng-model="address.city" class="form-control" id="city1" ng-options="c.cityId as c.city for c in citysList"></select>
+															<!--这里监听的要跟上面的意志 -->
+															<select ng-model="address.cityId" class="form-control" id="city1" ng-options="c.cityId as c.city for c in citiesList"></select>
 														</div>
 														<!-- 这里所代表的意思地址三级联动的最后一个 区或者是县，跟数据库的字段不一致 数据库是town 这里是district -->
 														<div class="form-group area">
-															<select ng-options="address.district" class="form-control" id="district1"></select>
+															<select ng-model="address.areaId" ng-options="a.areaId as a.area for a  in areaList" class="form-control" id="district1"></select>
 														</div>
 													</div>
 												</div>

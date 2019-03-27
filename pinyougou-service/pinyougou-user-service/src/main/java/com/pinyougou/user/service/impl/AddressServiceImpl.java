@@ -32,7 +32,6 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
     @Autowired
     private ProvincesMapper provincesMapper;
-    @Autowired
 
     @Override
     public void save(Address address) {
