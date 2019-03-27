@@ -9,11 +9,6 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         });
     };
 
-    $scope.findAllProvince = function () {
-        baseService.sendGet("/address/findProvinces").then(function (response) {
-            $scope.provincesList = response.data;
-        });
-    };
     $scope.$watch('address.provinceId',function (newValue,oldValue) {
         if (newValue){
             $scope.findCity(newValue);
@@ -28,6 +23,18 @@ app.controller('addressController',function ($scope,$controller,baseService) {
             $scope.areaList = [];
         }
     });
+    $scope.findAllProvince = function () {
+        baseService.sendGet("/address/findProvinces").then(function (response) {
+            $scope.provincesList = response.data;
+        });
+    };
+    //citysList
+    $scope.findCity = function (provinceId) {
+        baseService.sendGet("/address/findCity?provinceId="+provinceId).then(function (response) {
+            $scope.CityList = response.data;
+        });
+    };
+
     $scope.delete = function () {
         // 判断用户是否选中了行
         if ($scope.ids.length > 0) {
