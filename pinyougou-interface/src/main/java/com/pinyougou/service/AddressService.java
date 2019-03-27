@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.pojo.Address;
 import java.util.List;
 import java.io.Serializable;
@@ -29,7 +30,7 @@ public interface AddressService {
 	List<Address> findAll();
 
 	/** 多条件分页查询 */
-	List<Address> findByPage(Address address, int page, int rows);
+	PageResult findByPage(Address address, int page, int rows);
 
 	/** 根据用户名查询收件地址 */
     List<Address> findAddressByUser(String userId);
