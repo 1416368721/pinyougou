@@ -1,8 +1,8 @@
 /** 定义控制器层 */
 app.controller('userController', function ($scope, $controller, $timeout, baseService) {
 
-    // 继承baseController
-    $controller('baseController', {$scope: $scope});
+    // 继承indexController
+    $controller('indexController', {$scope: $scope});
 
     // 定义json对象
     $scope.user = {};

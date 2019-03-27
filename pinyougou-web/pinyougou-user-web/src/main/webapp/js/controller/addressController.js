@@ -91,15 +91,18 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         })
     }
 
-    //通过锁定选择框的id来查找
+    //通过锁定选择框的id来查找,如果查找的id有返回值的话就显示页面，但是既然都显示出来了，那里面肯定有呀
     $scope.findById = function (id) {
         baseService.get("/address/findByPage?id"+id).then(function (response) {
             if (response.data){
-
+                $scope.show();
             }
         })
     }
 
+    $scope.show = function () {
+        
+    }
     $scope.reload = function () {
         $scope.findAll();
     }
