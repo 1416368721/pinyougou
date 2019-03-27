@@ -4,5 +4,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pinyougou.mapper.AddressMapper">
+	<select id="findAll" resultType="Address">
+		select * from tb_address
+	</select>
 
+	<delete id="deleteAll">
+		DELETE FROM tb_address WHERE id IN
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 </mapper>
