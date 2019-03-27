@@ -318,7 +318,7 @@ $(function(){
 											<div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" ng-model="address.moreaddress" class="input-large">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -336,7 +336,7 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium"  ng-model="address.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -344,6 +344,8 @@ $(function(){
                                         </div>
                                         </form>
                                         {{address}}
+										{{address.contact}}
+										{{address.mobile}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
