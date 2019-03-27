@@ -1,11 +1,14 @@
 package com.pinyougou.service;
 
 import com.pinyougou.common.pojo.PageResult;
+import com.pinyougou.pojo.Item;
 import com.pinyougou.pojo.Order;
 import com.pinyougou.pojo.PayLog;
 
 import java.util.List;
 import java.io.Serializable;
+import java.util.Set;
+
 /**
  * OrderService 服务接口
  * @date 2019-02-27 10:03:32
@@ -48,4 +51,6 @@ public interface OrderService {
 
 	/**保存订单到redis*/
 	void saveOrderToRedis(Order order, String userId);
+
+
 }

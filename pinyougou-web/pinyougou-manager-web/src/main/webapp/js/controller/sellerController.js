@@ -4,14 +4,8 @@ app.controller('sellerController', function($scope, $controller, baseService){
     /** 指定继承baseController */
     $controller('baseController',{$scope:$scope});
 
-    /** 商家审核状态*/
-    $scope.statusList = ["未审核","已审核","审核不通过","关闭"]
-    $scope.getStatus = function (status) {
-       return $scope.statusList[status];
-    }
-
     /** 查询条件对象 */
-    $scope.searchEntity = {status : ''};
+    $scope.searchEntity = {status : '0'};
     /** 分页查询(查询条件) */
     $scope.search = function(page, rows){
         baseService.findByPage("/seller/findByPage", page,
