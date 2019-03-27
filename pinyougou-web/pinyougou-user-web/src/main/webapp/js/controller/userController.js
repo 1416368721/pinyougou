@@ -2,7 +2,7 @@
 app.controller('userController', function ($scope, $controller, $timeout, baseService) {
 
     // 继承baseController
-    $controller('indexController', {$scope: $scope});
+    $controller('baseController', {$scope: $scope});
 
     // 定义json对象
     $scope.user = {};
@@ -76,6 +76,7 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
             $scope.flag = false;
         }
     };
+    //上传图片
     $scope.upload = function () {
         baseService.uploadFile().then(function (response) {
             if (response.data.status == 200){
