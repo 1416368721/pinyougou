@@ -1,5 +1,6 @@
 package com.pinyougou.shop.controller;
 
+import com.pinyougou.common.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,13 +29,22 @@ public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private HttpServletResponse response;
     /** 用户登录  get|post */
     @RequestMapping("/login")
     public String login(String username, String password, String code,
                         HttpServletRequest request){
         System.out.println("username:" + username);
         System.out.println("password:" + password);
+        CookieUtils.setCookie(request,
+                response, "password",password ,
+                60*60*24*30, true);
+        CookieUtils.setCookie(request,
+                response, "username",username ,
+                60*60*24*30, true);
         System.out.println("code:" + code);
 
         // 判断请求方式
@@ -67,10 +78,10 @@ public class LoginController {
         SecurityContext context = SecurityContextHolder.getContext();
         // 获取登录用户名
         String loginName = context.getAuthentication().getName();
-
         Map<String,String> data = new HashMap<>();
         data.put("loginName", loginName);
         return data;
 
     }
+
 }

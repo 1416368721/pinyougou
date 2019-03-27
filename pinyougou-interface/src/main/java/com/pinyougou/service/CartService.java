@@ -41,4 +41,15 @@ public interface CartService {
      * @return 合并后的购物车
      * */
     List<Cart> mergeCart(List<Cart> cookieCarts, List<Cart> redisCarts);
+
+    /**
+     *
+     * @param carts
+     * @param ids
+     * @param username
+     * @return
+     */
+    List<Cart> saveCartRedisByIds(List<Cart> carts,Long[] ids, String username);
+
+    List<Cart> findIdsCartRedis(String userId);
 }
