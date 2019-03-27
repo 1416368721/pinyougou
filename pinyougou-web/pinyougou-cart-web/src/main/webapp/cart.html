@@ -66,10 +66,13 @@
 		</div>
 		<!--All goods-->
 		<div class="allgoods">
-			<h4>全部商品<span>11</span></h4>
+			<h4>全部商品<span><b>{{totalEntity.totalNum}}</b></span></h4>
 			<div class="cart-main">
 				<div class="yui3-g cart-th">
-					<div class="yui3-u-1-4"><input type="checkbox" name="" value="" /> 全部</div>
+					<!--最上面全选框-->
+					<div class="yui3-u-1-4"><input ng-click="checkAll($event)"
+												   ng-checked="ckAll"
+												   type="checkbox" name="" value="" /> 全部</div>
 					<div class="yui3-u-1-4">商品</div>
 					<div class="yui3-u-1-8">单价（元）</div>
 					<div class="yui3-u-1-8">数量</div>
@@ -79,14 +82,19 @@
 
 				<div class="cart-item-list" ng-repeat="cart in carts">
 					<div class="cart-shop">
-						<input type="checkbox" name="" value="" />
+						<!--商家全选框-->
+						<input ng-checked="checkedArr[$index]"
+							   ng-click="updateSelection($event,cart.sellerId,$index);"
+							   type="checkbox" name="" value="" />
 						<span class="shopname self">{{cart.sellerName}}</span>
 					</div>
 					<div class="cart-body">
 						<div class="cart-list" ng-repeat="orderItem in cart.orderItems">
 							<ul class="goods-list yui3-g">
 								<li class="yui3-u-1-24">
-									<input type="checkbox" name="" value="" />
+									<input ng-click="updateSelection2($event,orderItem.itemId,$index,cart.sellerName)"
+										   ng-checked="checkedArr2[$index]"
+										   type="checkbox" name="" value="" />
 								</li>
 								<li class="yui3-u-11-24">
 									<div class="good-item">
@@ -119,7 +127,10 @@
 			</div>
 			<div class="cart-tool">
 				<div class="select-all">
-					<input type="checkbox" name="" value="" />
+					<!--最下面的全选框-->
+					<input ng-click="checkAll($event)"
+						   ng-checked="ckAll"
+						   type="checkbox" name="" value="" />
 					<span>全选</span>
 				</div>
 				<div class="option">
@@ -128,14 +139,14 @@
 					<a href="#none">清除下柜商品</a>
 				</div>
 				<div class="toolbar">
-					<div class="chosed">已选择<b>{{totalEntity.totalNum}}</b>件商品</div>
+					<div class="chosed">已选择<b>{{isSelectNum}}</b>件商品</div>
 					<div class="sumprice">
 						<span><em>总价（不含运费） ：</em><i class="summoney">
-							¥{{totalEntity.totalMoney.toFixed(2)}}</i></span>
+							¥{{isSelectMoney.toFixed(2)}}</i></span>
 						<span><em>已节省：</em><i>-¥20.00</i></span>
 					</div>
-					<div class="sumbtn">
-						<a class="sum-btn" href="/order/getOrderInfo.html" target="_blank">结算</a>
+					<div class="sumbtn"><!--/order/getOrderInfo.html-->
+						<a class="sum-btn" ng-click="addGoodsbyIds(ids)"href="javascript:;" target="_blank">结算</a>
 					</div>
 				</div>
 			</div>
