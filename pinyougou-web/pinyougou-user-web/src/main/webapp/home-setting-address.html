@@ -162,11 +162,31 @@ $(function(){
 
 <script type="text/javascript" src="/js/widget/nav.js"></script>
 
+<script type="text/javascript" src="/js/plugins/birthday/birthday.js"></script>
+
+<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.data.js"></script>
+
+<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.js"></script>
+
 <script type="text/javascript" src="/pages/userInfo/distpicker.data.js"></script>
 
 <script type="text/javascript" src="/pages/userInfo/distpicker.js"></script>
 
+<script type="text/javascript" src="/js/plugins/upload/uploadPreview.js"></script>
+
 <script type="text/javascript" src="/pages/userInfo/main.js"></script>
+
+<script type="text/javascript" src="/js/pages/main.js"></script>
+
+<script>
+	$(function() {
+		$.ms_DatePicker({
+			YearSelector: "#select_year2",
+			MonthSelector: "#select_month2",
+			DaySelector: "#select_day2"
+		});
+	});
+</script>
 
 </body>
     <!--header-->
@@ -259,6 +279,7 @@ $(function(){
                             </table>
 							<!--<tm-pagination conf="paginationConf"/>-->
                         </div>
+
                         <!--新增地址弹出层-->
                          <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit" style="width:580px;">
                             <div class="modal-dialog">
@@ -272,26 +293,27 @@ $(function(){
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" ng-model="address.contact" class="input-medium">
                                             </div>
                                         </div>
-                                        <div class="control-group">
-                                            <label class="control-label">所在地区：</label>
-                                            <div class="controls">
-                                                <div data-toggle="distpicker">
-                                                <div class="form-group area">
-                                                    <select class="form-control" id="province1"></select>
-                                                </div>
-                                                <div class="form-group area">
-                                                    <select class="form-control" id="city1"></select>
-                                                </div>
-                                                <div class="form-group area">
-                                                    <select class="form-control" id="district1"></select>
-                                                </div>
-                                            </div>
-                                            </div>									 
-                                        </div>
-                                        <div class="control-group">
+											<div class="control-group">
+												<label for="inputPassword" class="control-label">所在地：</label>
+												<div class="controls">
+													<div data-toggle="distpicker">
+														<div class="form-group area">
+															<select ng-options="address.province" class="form-control" id="province1"></select>
+														</div>
+														<div class="form-group area">
+															<select ng-options="address.city" class="form-control" id="city1" ng-model="address.city"></select>
+														</div>
+														<!-- 这里所代表的意思地址三级联动的最后一个 区或者是县，跟数据库的字段不一致 数据库是town 这里是district -->
+														<div class="form-group area">
+															<select ng-options="address.district" class="form-control" id="district1"></select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
                                                 <input type="text" class="input-large">
@@ -300,7 +322,7 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="address.mobile">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -318,10 +340,8 @@ $(function(){
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
                                             </div>
                                         </div>
-                                        
                                         </form>
-                                        
-                                        
+                                        {{address}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
