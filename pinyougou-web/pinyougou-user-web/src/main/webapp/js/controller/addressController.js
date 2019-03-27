@@ -91,8 +91,16 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         })
     }
 
+    //通过锁定选择框的id来查找
+    $scope.findById = function (id) {
+        baseService.get("/address/findByPage?id"+id).then(function (response) {
+            if (response.data){
+
+            }
+        })
+    }
+
     $scope.reload = function () {
         $scope.findAll();
     }
-
 });
