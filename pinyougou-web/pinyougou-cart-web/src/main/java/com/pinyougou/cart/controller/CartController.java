@@ -2,6 +2,7 @@ package com.pinyougou.cart.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pinyougou.cart.Cart;
 import com.pinyougou.common.util.CookieUtils;
 import com.pinyougou.service.CartService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -121,5 +123,35 @@ public class CartController {
         }
         return carts;
 
+    }
+
+//     选中购物车中部分商品结账
+    @GetMapping("/addGoodsbyIds")
+    public Boolean addGoodsbyIds(Long[] ids){
+        System.out.println(ids);
+        try {
+            //用户绝对登录了的
+//            将选中id存入redis中，直接在redis中通过id获取商品信息
+            String username = request.getRemoteUser();
+            // 购物集合
+            List<Cart> carts = cartService.findCartRedis(username);
+//            获取到选中的ids的商品并封装到购物车
+            List<Cart> idsCarts=cartService.saveCartRedisByIds(carts,ids,username);
+
+//          更新购物车，将选中商品删除
+
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+//    获取已经候选购物车商品
+    @GetMapping("/findIdsCart")
+    public List<Cart> findIdsCart() {
+        String userId = request.getRemoteUser();
+        List<Cart> carts = cartService.findIdsCartRedis(userId);
+        return carts;
     }
 }

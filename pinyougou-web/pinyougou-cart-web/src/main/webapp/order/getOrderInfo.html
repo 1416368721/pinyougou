@@ -15,7 +15,7 @@
 </head>
 <body ng-app="pinyougou"
 	  ng-controller="orderController"
-	  ng-init="loadUsername();findAddressByUser();findCart();">
+	  ng-init="loadUsername();findAddressByUser();findIdsCart();">
 	<!--head-->
 	<div class="top">
 		<div class="py-container">
@@ -180,7 +180,7 @@
 					</div>
 					<div class="step-cont">
 						<ul class="send-detail">
-							<li ng-repeat="cart in carts">
+							<li ng-repeat="cart in idsCarts">
 								<div ng-repeat="orderItem in cart.orderItems">
 									<ul class="yui3-g">
 										<li class="yui3-u-1-6">

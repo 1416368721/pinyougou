@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.DocFlavor;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  购物车服务接口实现类
@@ -154,7 +156,7 @@ public class CartServiceImpl implements CartService {
      * @param userId 用户id
      * @return 购物车集合
      */
-    public List<Cart> findCartRedis(String userId){
+    public List<Cart>  findCartRedis(String userId){
         try{
             List<Cart> carts = (List<Cart>)redisTemplate.boundValueOps("cart_" + userId).get();
             if (carts == null){
@@ -200,4 +202,51 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    //通过ids获取商品并封装到购物车中
+    @Override
+    public List<Cart> saveCartRedisByIds(List<Cart> carts,Long[] ids, String username) {
+        ArrayList<Cart>cartsByIds=new ArrayList<>();
+        System.out.println(ids);
+        for(int i=0;carts.size()>i;i++){
+            Cart cart1 = new Cart();
+            Cart cart = carts.get(i);
+            cart1.setSellerId(cart.getSellerId());
+            cart1.setSellerName(cart.getSellerName());
+            List<OrderItem> cartOrderItems = cart.getOrderItems();
+            ArrayList<OrderItem>orderItems=new ArrayList<>();
+            for (int j=0;cartOrderItems.size()>j;j++){
+                OrderItem orderItem = cart.getOrderItems().get(j);
+                for (Long id : ids) {
+                    if (id.equals(orderItem.getItemId())){
+                        orderItems.add(orderItem);
+                        cartOrderItems.remove(j);
+                        j--;
+                        continue;
+                    }
+                }
+                if (cartOrderItems!=null&&cartOrderItems.size()==0){
+                    carts.remove(i);
+                    i--;
+                }
+            cart1.setOrderItems(orderItems);
+            }
+            cartsByIds.add(cart1);
+            System.out.println(cartsByIds);
+        }
+        redisTemplate.boundValueOps("cart_"+username).set(carts);
+        redisTemplate.boundValueOps("idSelectedCart_"+username).set(cartsByIds);
+         List<Cart> idsCarts = (List<Cart>) redisTemplate.boundValueOps("IdSelectedCart_" + username).get();
+//        System.out.println("idsCarts===="+idsCarts);
+         List<Cart> Carts = (List<Cart>) redisTemplate.boundValueOps("cart_" + username).get();
+//        System.out.println("carts===="+carts);
+         return idsCarts;
+    }
+
+//    获取idsCarts
+    @Override
+    public List<Cart> findIdsCartRedis(String userId) {
+        return (List<Cart>)redisTemplate.boundValueOps("idSelectedCart_"+userId).get();
+    }
 }
+
+
