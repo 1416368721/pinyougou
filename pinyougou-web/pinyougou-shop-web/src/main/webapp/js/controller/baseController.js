@@ -1,5 +1,5 @@
 /** 定义基础的控制器 */
-app.controller("baseController", function($scope){
+app.controller("baseController", function($scope, baseService){
 
     // 定义分页组件需要参数对象
     $scope.paginationConf = {

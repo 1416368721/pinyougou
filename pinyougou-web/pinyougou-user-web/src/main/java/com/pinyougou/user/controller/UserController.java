@@ -19,7 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
     @Reference(timeout = 10000)
     private UserService userService;
 

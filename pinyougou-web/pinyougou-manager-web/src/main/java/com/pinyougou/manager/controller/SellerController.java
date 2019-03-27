@@ -37,7 +37,7 @@ public class SellerController {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return sellerService.findByPage(seller, page, rows);
+        return sellerService.findByPage(seller,page ,rows);
     }
 
     /** 审核商家 */
