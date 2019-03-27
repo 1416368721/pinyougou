@@ -221,6 +221,9 @@ $(function(){
                             <table id="dataList" class="sui-table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                     <tr>
+                                        <th class="" style="padding-right: 0px">
+							                <input id="selall" type="checkbox" class="icheckbox_square-blue">
+										</th>
                                         <th>姓名</th>
                                         <th>地址</th>
                                         <th>联系电话</th>
@@ -229,12 +232,15 @@ $(function(){
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="entity in dataList">
+										<td><input type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
                                         <td>{{entity.contact}}</td>
                                         <td>{{entity.address}}</td>
                                         <td>{{entity.mobile}}</td>
                                         <td>
                                             <a href="#">编辑</a>
-                                            <!--<button type="button" class="btn btn-default" ng-click="delete()">删除</button>-->
+											<button type="button" class="btn btn-default"
+													ng-click="delete()"
+													title="删除" >删除</button>
                                             默认地址
                                         </td>
                                     </tr>
