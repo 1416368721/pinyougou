@@ -164,7 +164,7 @@ $(function(){
 
 <script type="text/javascript" src="/js/plugins/birthday/birthday.js"></script>
 
-<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.data.js"></script>
+<!--<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.data.js"></script>-->
 
 <script type="text/javascript"	src="/js/plugins/citypicker/distpicker.js"></script>
 
@@ -301,10 +301,10 @@ $(function(){
 												<div class="controls">
 													<div data-toggle="distpicker">
 														<div class="form-group area">
-															<select ng-options="address.province" class="form-control" id="province1"></select>
+															<select ng-model="address.province" class="form-control" id="province1" ng-options="i.provinceId as i.province for i in provincesList"></select>
 														</div>
 														<div class="form-group area">
-															<select ng-options="address.city" class="form-control" id="city1" ng-model="address.city"></select>
+															<select ng-model="address"></select>
 														</div>
 														<!-- 这里所代表的意思地址三级联动的最后一个 区或者是县，跟数据库的字段不一致 数据库是town 这里是district -->
 														<div class="form-group area">

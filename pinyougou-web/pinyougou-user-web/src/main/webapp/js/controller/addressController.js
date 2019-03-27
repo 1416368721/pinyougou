@@ -9,6 +9,25 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         });
     };
 
+    $scope.findAllProvince = function () {
+        baseService.sendGet("/address/findProvinces").then(function (response) {
+            $scope.provincesList = response.data;
+        });
+    };
+    $scope.$watch('address.provinceId',function (newValue,oldValue) {
+        if (newValue){
+            $scope.findCity(newValue);
+        }else {
+            $scope.cityieLsit = [];
+        }
+    });
+    $scope.$watch('address.cityId',function (newValue,oldValue) {
+        if (newValue){
+            $scope.findArea(newValue);
+        }else {
+            $scope.areaList = [];
+        }
+    });
     $scope.delete = function () {
         // 判断用户是否选中了行
         if ($scope.ids.length > 0) {

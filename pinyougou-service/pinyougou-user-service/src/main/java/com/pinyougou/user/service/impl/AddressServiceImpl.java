@@ -6,7 +6,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.mapper.AddressMapper;
+import com.pinyougou.mapper.ProvincesMapper;
 import com.pinyougou.pojo.Address;
+import com.pinyougou.pojo.Provinces;
 import com.pinyougou.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private ProvincesMapper provincesMapper;
+    @Autowired
 
     @Override
     public void save(Address address) {
@@ -97,4 +102,5 @@ public class AddressServiceImpl implements AddressService {
             throw new RuntimeException(ex);
         }
     }
+
 }
