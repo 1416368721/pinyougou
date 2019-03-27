@@ -7,4 +7,6 @@ app.controller('addressController',function ($scope,$controller,baseService) {
                 $scope.dataList = response.data;
         });
     };
+
+
 });
