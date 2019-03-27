@@ -32,15 +32,13 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             });
     };
 
+    $scope.ckCart = [];
     // 商品选择
     $scope.updateSelection2=function ($event,id,i,cart) {
         // alert(sellerName);
         var sellerName=cart.sellerName;
         // alert(sellerName);
         // alert(cart.orderItems.length);
-        $scope.isSelectNum=0;
-        $scope.isSelectMoney=0;
-
         if("小米"==sellerName) {
             // alert("小米");
             if ($event.target.checked) {
@@ -49,6 +47,9 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                 var idx = $scope.xMids.indexOf(id);
                 $scope.xMids.splice(idx, 1);
             }
+            // alert($scope.xMids);
+            addArray();
+            // alert($scope.ids);
             for (var b = 0; $scope.carts.length > b; b++) {
                 var orderItems = $scope.carts[b].orderItems;
                 // alert(orderItems);
@@ -56,9 +57,9 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                     var orderItem = orderItems[c];
                     // alert("遍历："+orderItem.itemId);
 
-                    for (var a = 0; $scope.xMids.length > a; a++) {
+                    for (var a = 0; $scope.ids.length > a; a++) {
                         // alert($scope.ids[a]);
-                        if (orderItem.itemId == $scope.xMids[a]) {
+                        if (orderItem.itemId == $scope.ids[a]) {
                             // alert(orderItems[c].itemId);
                             $scope.isSelectNum += orderItems[c].num;
                             $scope.isSelectMoney += orderItems[c].totalFee;
@@ -68,8 +69,9 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                 }
             }
             // alert(cart.orderItems.length);
-            $scope.ckAll=cart.orderItems.length==$scope.xMids.length;
-            // alert("小米:"+$scope.xMids);
+            $scope.ckCart[cart.sellerName]=cart.orderItems.length==$scope.xMids.length;
+
+
         }else if("品优购"==sellerName){
             if ($event.target.checked) {
                 $scope.aDids.push(id);
@@ -77,24 +79,15 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                 var idx = $scope.aDids.indexOf(id);
                 $scope.aDids.splice(idx, 1);
             }
-            for (var b = 0; $scope.carts.length > b; b++) {
-                var orderItems = $scope.carts[b].orderItems;
-                // alert(orderItems);
-                for (var c = 0; orderItems.length > c; c++) {
-                    var orderItem = orderItems[c];
-                    // alert("遍历："+orderItem.itemId);
-                    for (var a = 0; $scope.aDids.length > a; a++) {
-                        // alert($scope.ids[a]);
-                        if (orderItem.itemId == $scope.aDids[a]) {
-                            // alert(orderItems[c].itemId);
-                            $scope.isSelectNum += orderItems[c].num;
-                            $scope.isSelectMoney += orderItems[c].totalFee;
-                        }
-                    }
-                }
-            }
+            addArray();
+            // alert($scope.ids);
+
+
+            $scope.ckCart[cart.sellerName]=cart.orderItems.length==$scope.aDids.length;
+
+
         }
-       $scope.ckAll=cart.orderItems.length==$scope.aDids.length
+        // alert($scope.ckAll[0]);
            // alert($scope.ckAll);
 
         // alert("品优购:"+$scope.aDids);
@@ -105,16 +98,21 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             // 清空用户选择的ids
             $scope.aDids = [];
             var orderItem = cart.orderItems;
-            // alert(orderItem.length);
+             // alert("orderItem="+orderItem.length);
             // 循环当前页数据数组
             for (var i = 0; i < orderItem.length; i++) {
-                alert(i);
+                // alert(i);
                 // 初始化数组
                 $scope.checkedArr[cart.sellerName+i] = $event.target.checked;
                 // 判断是否选中
                 if ($event.target.checked) {
                     // {id}
-                    $scope.aDids.push(orderItem[i].id);
+                    $scope.aDids.push(orderItem[i].itemId);
+                    // alert($scope.aDids);
+                    addArray();
+                }else{
+                    $scope.aDids=[];
+                    addArray();
                 }
             }
             // 重新赋值，再次绑定checkbox
@@ -123,16 +121,20 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             // 清空用户选择的ids
             $scope.xMids = [];
             var orderItem = cart.orderItems;
-            alert(orderItem.length);
+            // alert(orderItem.length);
             // 循环当前页数据数组
             for (var i = 0; i < orderItem.length; i++) {
-                alert(i);
+                // alert(i);
                 // 初始化数组
                 $scope.checkedArr[cart.sellerName+i] = $event.target.checked;
                 // 判断是否选中
                 if ($event.target.checked) {
                     // {id}
-                    $scope.xMids.push(orderItem[i].id);
+                    $scope.xMids.push(orderItem[i].itemId);
+                    addArray();
+                }else {
+                    $scope.xMids=[];
+                    addArray();
                 }
             }
             // 重新赋值，再次绑定checkbox
@@ -204,6 +206,37 @@ app.controller('cartController', function ($scope, $controller, baseService) {
     }
 
 
-    //
+    //将aDis和xMids数组整合到ids；
+    function addArray() {
+        $scope.ids=[];
+        if ($scope.aDids!=null&&$scope.aDids.length>0) {
+            for (var x = 0; $scope.aDids.length > x; x++) {
+                $scope.ids.push($scope.aDids[x]);
+            }
+        }
+        if ($scope.xMids!=null&&$scope.xMids.length>0) {
+            for (var y = 0; $scope.xMids.length > y; y++) {
+                $scope.ids.push($scope.xMids[y]);
+            }
+        }
+        $scope.isSelectNum=0;
+        $scope.isSelectMoney=0;
+        for (var b = 0; $scope.carts.length > b; b++) {
+            var orderItems = $scope.carts[b].orderItems;
+            // alert(orderItems);
+            for (var c = 0; orderItems.length > c; c++) {
+                var orderItem = orderItems[c];
+                // alert("遍历："+orderItem.itemId);
+                for (var a = 0; $scope.ids.length > a; a++) {
+                    // alert($scope.ids[a]);
+                    if (orderItem.itemId == $scope.ids[a]) {
+                        // alert(orderItems[c].itemId);
+                        $scope.isSelectNum += orderItems[c].num;
+                        $scope.isSelectMoney += orderItems[c].totalFee;
+                    }
+                }
+            }
+        }
+    }
 
 });

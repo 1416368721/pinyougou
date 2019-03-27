@@ -83,7 +83,7 @@
 					<div class="cart-shop">
 						<!--商家全选框-->
 						<input  ng-click="checkAll($event,cart)"
-								ng-checked="ckAll"
+								ng-checked="ckCart[cart.sellerName]"
 								type="checkbox" name="" value="" />
 						<span class="shopname self">{{cart.sellerName}}</span>
 					</div>
