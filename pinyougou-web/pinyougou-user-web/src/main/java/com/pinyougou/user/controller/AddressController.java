@@ -72,6 +72,7 @@ public class AddressController {
             String userId = request.getRemoteUser();
             //存入去
             address.setUserId(userId);
+            address.setIsDefault("0");
             addressService.save(address);
             return true;
         }catch (Exception ex){

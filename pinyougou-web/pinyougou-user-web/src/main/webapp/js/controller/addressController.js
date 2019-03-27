@@ -19,7 +19,7 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         });
     };
     /** 为什么起那么诡异的名字，是因为address表里面有个address字段名 正解？还是误解？？*/
-    $scope.address.address={};
+    $scope.address={};
 
     /** 监听器 当 provinceId的值发生改变的时候，等价于province（s省份发生改变的时候！！） 对唔住我是差人*/
     $scope.$watch('address.provinceId',function (newValue,oldValue) {
@@ -80,7 +80,7 @@ app.controller('addressController',function ($scope,$controller,baseService) {
 
     //这里是存储是通过不同user来传的，那个ids根本就没有用，这里要传过去的的address
     $scope.saveOrUpdate = function () {
-        baseService.save("/address/saveOrUpdate",$scope.address).then(function (response) {
+        baseService.sendPost("/address/saveOrUpdate",$scope.address).then(function (response) {
             //返回页面的是布尔值 要么是true要么是false
             if (response.data){
                 //清空表单数据
