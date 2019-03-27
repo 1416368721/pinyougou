@@ -70,9 +70,11 @@
 			<div class="cart-main">
 				<div class="yui3-g cart-th">
 					<!--最上面全选框-->
-					<div class="yui3-u-1-4"><input ng-click="checkAll($event)"
-												   ng-checked="ckAll"
-												   type="checkbox" name="" value="" /> 全部</div>
+					<div class="yui3-u-1-4">
+						<input ng-click="checkAll($event)"
+							   ng-checked="ckAll"
+							   ng-model="all"
+							   type="checkbox" name="" value="" /> 全部</div>
 					<div class="yui3-u-1-4">商品</div>
 					<div class="yui3-u-1-8">单价（元）</div>
 					<div class="yui3-u-1-8">数量</div>
@@ -128,8 +130,8 @@
 			<div class="cart-tool">
 				<div class="select-all">
 					<!--最下面的全选框-->
-					<input ng-click="checkAll($event)"
-						   ng-checked="ckAll"
+					<input ng-click="checkAll2($event)"
+						   ng-checked="all" ng-model="all2"
 						   type="checkbox" name="" value="" />
 					<span>全选</span>
 				</div>
