@@ -70,8 +70,7 @@
 			<div class="cart-main">
 				<div class="yui3-g cart-th">
 					<!--最上面全选框-->
-					<div class="yui3-u-1-4"><input ng-click="checkAll($event)"
-												   ng-checked="ckAll"
+					<div class="yui3-u-1-4"><input
 												   type="checkbox" name="" value="" /> 全部</div>
 					<div class="yui3-u-1-4">商品</div>
 					<div class="yui3-u-1-8">单价（元）</div>
@@ -83,18 +82,18 @@
 				<div class="cart-item-list" ng-repeat="cart in carts">
 					<div class="cart-shop">
 						<!--商家全选框-->
-						<input ng-checked="checkedArr[$index]"
-							   ng-click="updateSelection($event,cart.sellerId,$index);"
-							   type="checkbox" name="" value="" />
+						<input  ng-click="checkAll($event,cart)"
+								ng-checked="ckAll"
+								type="checkbox" name="" value="" />
 						<span class="shopname self">{{cart.sellerName}}</span>
 					</div>
 					<div class="cart-body">
 						<div class="cart-list" ng-repeat="orderItem in cart.orderItems">
 							<ul class="goods-list yui3-g">
 								<li class="yui3-u-1-24">
-									<input ng-click="updateSelection2($event,orderItem.itemId,$index,cart.sellerName)"
-										   ng-checked="checkedArr2[$index]"
-										   type="checkbox" name="" value="" />
+									<input  ng-checked="checkedArr[cart.sellerName+$index]"
+											ng-click="updateSelection2($event,orderItem.itemId,$index,cart);"
+											type="checkbox" name="" value="" />
 								</li>
 								<li class="yui3-u-11-24">
 									<div class="good-item">
@@ -128,8 +127,7 @@
 			<div class="cart-tool">
 				<div class="select-all">
 					<!--最下面的全选框-->
-					<input ng-click="checkAll($event)"
-						   ng-checked="ckAll"
+					<input
 						   type="checkbox" name="" value="" />
 					<span>全选</span>
 				</div>
