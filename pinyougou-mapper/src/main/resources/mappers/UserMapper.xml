@@ -4,5 +4,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pinyougou.mapper.UserMapper">
-
+<update id="saveUserInfo">
+	UPDATE tb_user SET nick_name=#{nickName},address=#{address},job=#{job},head_pic=#{headPic},sex=#{sex},birthday=#{birthday}
+	WHERE username=#{username}
+</update>
 </mapper>
