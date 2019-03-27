@@ -22,9 +22,10 @@
 	<script src="/js/controller/baseController.js"></script>
 	<script src="/js/controller/addressController.js"></script>
 </head>
+<!---这里初始化 那些最开始的方法 -->
 <body ng-app="pinyougou"
 	  ng-controller="addressController"
-	  ng-init="findAll()"
+	  ng-init="findAll(); findAllProvinces()"
       class="hold-transition skin-red sidebar-mini">
     >
     <!-- 头部栏位 -->
@@ -304,7 +305,7 @@ $(function(){
 															<select ng-model="address.province" class="form-control" id="province1" ng-options="i.provinceId as i.province for i in provincesList"></select>
 														</div>
 														<div class="form-group area">
-															<select ng-model="address"></select>
+															<select ng-model="address.city" class="form-control" id="city1" ng-options="c.cityId as c.city for c in citysList"></select>
 														</div>
 														<!-- 这里所代表的意思地址三级联动的最后一个 区或者是县，跟数据库的字段不一致 数据库是town 这里是district -->
 														<div class="form-group area">
