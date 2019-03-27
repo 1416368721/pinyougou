@@ -8,6 +8,8 @@ import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.mapper.SellerMapper;
 import com.pinyougou.pojo.Seller;
 import com.pinyougou.service.SellerService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,11 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public void update(Seller seller) {
+        try {
+            sellerMapper.updateByPrimaryKeySelective(seller);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
