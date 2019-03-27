@@ -1,12 +1,11 @@
 /** 定义控制器层 */
-app.controller('userController', function($scope, $timeout, baseService){
-
+app.controller('userController', function($scope,$controller, $timeout, baseService){
+    $controller('baseController', {$scope:$scope});
     // 定义json对象
-    $scope.user = {}
+    $scope.user = {};
 
     // 用户注册
     $scope.save = function () {
-
         // 判断密码是否一致
         if ($scope.okPassword && $scope.user.password == $scope.okPassword){
             // 发送异步请求
@@ -74,6 +73,68 @@ app.controller('userController', function($scope, $timeout, baseService){
             $scope.flag = false;
         }
     };
+    $scope.upload = function () {
+        baseService.uploadFile().then(function (response) {
+            if (response.data.status == 200){
+                $scope.user.headPic= response.data.url;
+            }else{
+                alert("图片上传失败！");
+            }
+        });
+    };
+
+/*查询所有省份*/
+    $scope.findAllProvince=function () {
+        baseService.sendGet("/user/findProvinces").then(function (response) {
+
+           $scope.provincesList=response.data;
+        });
+    };
+    $scope.user.address={};
+    $scope.user.job='';
+    $scope.user.headPic='';
+
+    $scope.$watch('user.address.provinceId', function(newValue, oldValue){
+            if (newValue){
+            $scope.findCity(newValue);
+        }else{
+            $scope.citiesList = [];
+        }});
+
+    $scope.$watch('user.address.cityId', function(newValue, oldValue){
+        if (newValue){
+            $scope.findArea(newValue);
+        }else{
+            $scope.areaList = [];
+        }});
 
 
+    $scope.findCity=function (provinceId) {
+      baseService.sendGet("/user/findCity?provinceId="+provinceId)
+          .then(function (response) {
+              $scope.citiesList=response.data;
+      });
+    };
+
+    $scope.findArea=function (cityId) {
+      baseService.sendGet("/user/findArea?cityId="+cityId)
+          .then(function (response) {
+         $scope.areaList=response.data;
+      });
+    };
+
+    /*保存用户表*/
+    $scope.saveUserInfo = function () {
+        baseService.sendPost("/user/updateUserInfo",$scope.user)
+            .then(function (response) {
+                    $scope.user = response.data;
+
+            });
+    };
+
+    $scope.findUser=function () {
+        baseService.sendGet("/user/findUser").then(function (response) {
+            $scope.Entity=response.data;
+        })
+    }
 });

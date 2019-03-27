@@ -29,7 +29,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             }
         });
     };
-
     // 购买数量增减与删除
     $scope.addCart = function (itemId, num) {
         baseService.sendGet("/cart/addCart?itemId="

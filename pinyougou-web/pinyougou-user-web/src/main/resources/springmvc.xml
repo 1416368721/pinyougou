@@ -13,7 +13,8 @@
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-
+    <!-- 加载属性文件 -->
+    <context:property-placeholder location="classpath:application.properties"/>
     <!-- 开启MVC注解驱动 -->
     <mvc:annotation-driven>
         <!-- 配置消息转换 -->
@@ -26,6 +27,13 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传默认编码 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 设置文件上传大小 2MB: 2*1024*1024 -->
+        <property name="maxUploadSize" value="2097152"/>
+    </bean>
 
     <!-- 配置静态资源用WEB容器默认的servlet来处理 -->
     <mvc:default-servlet-handler/>
