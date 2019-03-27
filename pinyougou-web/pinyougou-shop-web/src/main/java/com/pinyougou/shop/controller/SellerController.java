@@ -43,6 +43,17 @@ public class SellerController {
 
     @GetMapping("/findDataBySeller")
     public Seller findDataBySeller(String sellerId) {
-       return sellerService.findOne(sellerId);
+        return sellerService.findOne(sellerId);
+    }
+
+    @PostMapping("/updateSeller")
+    public boolean updateSeller(@RequestBody Seller seller) {
+        try {
+            sellerService.update(seller);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

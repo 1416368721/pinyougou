@@ -17,13 +17,12 @@
 	<script src="/js/base.js"></script>
 	<script src="/js/service/baseService.js"></script>
 	<script src="/js/controller/baseController.js"></script>
-	<script src="/js/controller/indexController.js"></script>
-	<script src="/js/controller/sellerController.js"></script>
+	<script src="/js/controller/seller2Controller.js"></script>
 
 </head>
 
 <body ng-app="pinyougou" ng-controller="seller2Controller"
-	  ng-init="getSellerId();findDataBySeller()"
+	  ng-init="showLoginName()"
 	  class="hold-transition skin-red sidebar-mini">
 
 	<!-- 正文区域 -->
@@ -54,7 +53,7 @@
 							
 							<div class="col-md-2 title">公司手机</div>
 							<div class="col-md-10 data">
-								<input type="text" class="form-control" ng-model="seller.moblie" placeholder="公司手机" value="">
+								<input type="text" class="form-control" ng-model="seller.mobile" placeholder="公司手机" value="">
 							</div>
 							
 							<div class="col-md-2 title">公司电话</div>
@@ -137,7 +136,7 @@
 			
 		   </div>
 		  <div class="btn-toolbar list-toolbar">
-			  <button ng-click="findDataBySeller()" class="btn btn-primary" ><i class="fa fa-save"></i>保存</button> {{loginName}} {{getSellerId()}}
+			  <button ng-click="updateSeller()" class="btn btn-primary" ><i class="fa fa-save"></i>保存</button> {{loginName}}
 			  <a  data-toggle="modal" class="btn btn-danger">返回</a> {{seller}}
 		  </div>
 	

@@ -2,7 +2,7 @@
 app.controller('seller2Controller', function ($scope, $controller, baseService) {
 
         /** 指定继承indexController */
-        $controller('indexController', {$scope: $scope});
+        $controller('baseController', {$scope: $scope});
 
 
         /** 商家申请入驻 */
@@ -19,21 +19,35 @@ app.controller('seller2Controller', function ($scope, $controller, baseService) 
                 });
         };
 
-        $scope.getSellerId = function () {
-            baseService.sendGet("/showLoginName").then(function (respones) {
-                $scope.sellerId = respones.data.loginName;
+
+    $scope.showLoginName = function () {
+        baseService.sendGet("/showLoginName").then(function (response) {
+            // 获取响应数据
+            $scope.loginName = response.data.loginName;
+
+            $scope.findDataBySeller();
+
+        });
+    };
+
+    $scope.findDataBySeller = function () {
+        baseService.sendGet("/seller/findDataBySeller?sellerId=" + $scope.loginName).then(function (response) {
+            $scope.seller = response.data;
+        });
+    };
+
+
+        $scope.updateSeller = function () {
+            baseService.sendPost("/seller/updateSeller", $scope.seller).then(function (response) {
+                if (response.data) {
+                    alert("修改成功");
+                    location.reload();
+                } else {
+                    alert("修改失败");
+                }
             });
         };
 
-        $scope.findDataBySeller = function () {
-
-
-
-            alert($scope.sellerId);
-            baseService.sendGet("/seller/findDataBySeller?sellerId=" + "admin").then(function (response) {
-                $scope.seller = response.data;
-            });
-        };
 
 
         /** 查询条件对象 */
