@@ -92,7 +92,7 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
         baseService.uploadFile().then(function (response) {
             if (response.data.status == 200){
                 $scope.pic= response.data.url;
-                alert(response.data.url);
+
             }else{
                 alert("图片上传失败！");
             }
@@ -205,7 +205,7 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
         baseService.sendPost("/user/updateUserInfo",$scope.user)
             .then(function (response) {
                 $scope.user = response.data;
-
-            })
+        $scope.findUser();
+            });
     }
 });
