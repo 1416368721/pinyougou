@@ -209,4 +209,9 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public User findUserById(String userId) {
+        return userMapper.findUserById(userId);
+    }
 }

@@ -76,11 +76,23 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
             $scope.flag = false;
         }
     };
+
+/*查询用户信息*/
+    $scope.findUser=function () {
+      baseService.sendGet("/user/findUser")
+          .then(function (response) {
+             $scope.user= response.data;
+
+        $scope.user.address=JSON.parse( $scope.user.address);
+
+          });
+    };
     //上传图片
     $scope.upload = function () {
         baseService.uploadFile().then(function (response) {
             if (response.data.status == 200){
-                $scope.user.headPic= response.data.url;
+                $scope.pic= response.data.url;
+
             }else{
                 alert("图片上传失败！");
             }
@@ -189,9 +201,11 @@ app.controller('userController', function ($scope, $controller, $timeout, baseSe
     };
     /*保存用户表*/
     $scope.saveUserInfo = function () {
+         $scope.user.headPic=  $scope.pic;
         baseService.sendPost("/user/updateUserInfo",$scope.user)
             .then(function (response) {
                 $scope.user = response.data;
-            })
+        $scope.findUser();
+            });
     }
 });
