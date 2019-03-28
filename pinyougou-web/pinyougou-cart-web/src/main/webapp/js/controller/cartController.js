@@ -36,11 +36,10 @@ app.controller('cartController', function ($scope, $controller, baseService) {
     //最上面的全选框
 
     $scope.checkAll=function ($event) {
-        newCart();
         if($event.target.checked){
       for (var a=0;$scope.carts.length>a;a++) {
-
-           $scope.all2[a] = true;
+          var cart=$scope.carts[a].sellerId;
+           $scope.all2[cart+a] = true;
            $scope.sellerIds.push($scope.carts[a].sellerName);
           var seller =$scope.carts[a].sellerName;
            // alert("卖家名字"+seller);
@@ -49,16 +48,12 @@ app.controller('cartController', function ($scope, $controller, baseService) {
               }
               // $scope[seller].push($scope.newCarts[seller].itemId);
           }
-          // alert($scope.all2[a])
-      // alert($scope[seller]);
-            allids();
-      // alert("xiaomi="+$scope.xiaomi);
-      // alert("admin="+$scope.admin);
-      // alert("ids="+$scope.ids);
-      //
+
       }else {
             for (var b=0;$scope.carts.length>b;b++){
-                $scope.all2[b]='';
+                var cart=$scope.carts[b].sellerId;
+                // alert(cart);
+                $scope.all2[cart+b]='';
                 var seller=$scope.carts[b].sellerName;
                 for(var e=0;$scope.newCarts[seller].length>e;e++){
                     $scope.all3[seller+e]='';
@@ -79,8 +74,12 @@ app.controller('cartController', function ($scope, $controller, baseService) {
           for(var c=0; cart.orderItems.length>c;c++){
               $scope.all3[cart.sellerName+c]=true;
               // alert(cart.orderItems[c].itemId);
-              $scope.ids.push(cart.orderItems[c].itemId);
-              // alert("选中:"+$scope.ids);
+              if($scope.ids.indexOf(cart.orderItems[c].itemId)>=0) {
+                  // alert("存在这个数");
+              }else{
+                  $scope.ids.push(cart.orderItems[c].itemId);
+              }
+               // alert("选中:"+$scope.ids);
           }
               $scope.sellerIds.push(cart.sellerName)
       }else {
@@ -105,20 +104,27 @@ app.controller('cartController', function ($scope, $controller, baseService) {
     };
     //商品选择
     $scope.checkAll3=function ($event, id, i, sellerId,cart) {
+        // id==itemId sellerId==sellerName
       if($event.target.checked){
          // $scope[sellerId]商家变量用户车;
          $scope[sellerId].push(id);
-         // alert($scope[sellerId]);
+          // alert(sellerId+$scope[sellerId]);
          // 将id加入到ids；
           $scope.ids.push(id);
-           // alert("选中="+$scope[sellerId]);
+            // alert("选中sellerId="+$scope[sellerId]);
+            // alter("选中后ids:"+$scope.ids);
           if($scope[sellerId].length==cart.orderItems.length){
           //    商家选择购物车id与总购物车该商家id个数相同
           //     alert(sellerId+"相等");
           //    将商家名加入sellerIds数组中;
               $scope.sellerIds.push(sellerId);
-
           }
+          // for(var n=0;cart.orderItems.length>n;n++){
+          //     alert(cart.orderItems.length);
+          //     if(cart.orderItems[n].sellerId==sellerId){
+          //         $scope.all2[n]=$scope.carts[n].orderItems.length==$scope[sellerId].length;
+          //     }
+          // }
       }else{
            var idx=$scope[sellerId].indexOf(id);
            $scope[sellerId].splice(idx,1);
@@ -127,17 +133,15 @@ app.controller('cartController', function ($scope, $controller, baseService) {
           // alert($scope.sellerIds)
       //    删除ids中的id
           var idx3=$scope.ids.indexOf(id);
-          $scope.ids.splice(idx,1);
+          $scope.ids.splice(idx3,1);
+          // alert("取消后ids"+$scope.ids);
       }
-
-        for(var z=0;$scope.carts.length>z;z++){
-            if($scope.carts[z].sellerId==sellerId) {
-                $scope.all2[z] = $scope[sellerId].length == $scope.orderItem2[sellerId];
+      for(var n=0;cart.orderItems.length>n;n++){
+            // alert(cart.orderItems.length);
+            if(cart.orderItems[n].sellerId==sellerId){
+                $scope.all2[sellerId+n]=$scope.carts[n].orderItems.length==$scope[sellerId].length;
             }
-      //       if($scope.all2[z]){
-      //           $scope.sellerIds.push($scope.carts[z].sellerName)
-      //       }
-       }
+        }
       addArray();
         $scope.all=$scope.length==$scope.sellerIds.length;
 
@@ -160,7 +164,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             }
            $scope.newCarts[cart.sellerName]=cart.orderItems;
         }
-    };
+    }
 
     //购物车全部数据重新封装
     function allids () {
@@ -185,7 +189,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             // 获取响应数据
             $scope.carts = response.data;
 
-
+            newCart();
             // 定义json对象封装统计的结果
             $scope.totalEntity = {totalNum : 0, totalMoney : 0};
 
