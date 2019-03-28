@@ -104,7 +104,30 @@ app.controller('addressController',function ($scope,$controller,baseService) {
                 }
             }
         )
+    };
+
+    //设置默认地址 即是更改状态栏
+    $scope.saveAsDefault = function (id) {
+        baseService.sendGet("/address/saveAsDefault?id="+ id).then(function (response) {
+            if (response.data){
+                //如果修改成功的话，就重新加载页面
+                $scope.reload();
+            }else {
+                alert("设置默认失败")
+            }
+        });
+
+    //通过修改查找某个主键来修改表中的某个值 这里是状态值
+    $scope.updateObjectById = function () {
+        baseService.sendGet("/address/updateObjectById?id" + id).then(function (response) {
+            if (response.data){
+                $scope.reload();
+            }else {
+                alert("更新失败")
+            }
+        })
     }
+    };
 
     $scope.show = function () {
 
