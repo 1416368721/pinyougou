@@ -154,5 +154,10 @@ public List<Areas>findAreasByCityId(Long cityId){
     }
     return false;
 }
-
+/*根据用户Id查询用户信息*/
+@GetMapping("/findUser")
+    public User findUserById(HttpServletRequest request){
+    String userId = request.getRemoteUser();
+    return userService.findUserById(userId);
+}
 }
