@@ -1,8 +1,14 @@
 package com.pinyougou.user.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.ISelect;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.mapper.AddressMapper;
+import com.pinyougou.mapper.ProvincesMapper;
 import com.pinyougou.pojo.Address;
+import com.pinyougou.pojo.Provinces;
 import com.pinyougou.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +30,16 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private ProvincesMapper provincesMapper;
 
     @Override
     public void save(Address address) {
-
+        try {
+            addressMapper.insertSelective(address);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -42,7 +54,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void deleteAll(Serializable[] ids) {
-
+        try{
+            addressMapper.deleteAll(ids);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -52,12 +68,22 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<Address> findAll() {
-        return null;
+        return addressMapper.selectAll();
     }
 
     @Override
-    public List<Address> findByPage(Address address, int page, int rows) {
-        return null;
+    public PageResult findByPage(Address address, int page, int rows) {
+        try {
+            PageInfo<Address> pageInfo = PageHelper.startPage(page,rows ).doSelectPageInfo(new ISelect() {
+                @Override
+                public void doSelect() {
+                    addressMapper.findAll(address);
+                }
+            });
+            return new PageResult(pageInfo.getTotal(),pageInfo.getList());
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -79,4 +105,5 @@ public class AddressServiceImpl implements AddressService {
             throw new RuntimeException(ex);
         }
     }
+
 }

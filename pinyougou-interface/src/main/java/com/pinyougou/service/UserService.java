@@ -1,5 +1,6 @@
 package com.pinyougou.service;
 
+import com.pinyougou.pojo.Provinces;
 import com.pinyougou.pojo.User;
 import java.util.List;
 import java.io.Serializable;
@@ -44,4 +45,9 @@ public interface UserService {
 
 	/** 修改用户手机号码 */
 	void updatePhone(User user);
+
+/*修改用户信息*/
+    void saveUserInfo(User user);
+	/*根据用户Id查询用户信息*/
+    User findUserById(String userId);
 }

@@ -196,4 +196,22 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 修改user
+     * @param user
+     */
+    @Override
+    public void saveUserInfo(User user) {
+        try {
+
+            userMapper.saveUserInfo(user);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User findUserById(String userId) {
+        return userMapper.findUserById(userId);
+    }
 }

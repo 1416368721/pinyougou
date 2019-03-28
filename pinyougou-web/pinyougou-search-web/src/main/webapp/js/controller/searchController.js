@@ -138,5 +138,16 @@ app.controller("searchController" ,function ($scope, $sce, $location, baseServic
         $scope.search();
     };
 
+    //添加收藏
+    $scope.saveCollect = function (item) {
+        baseService.sendPost("/collect/saveCollect",item).then(function (response) {
+            if (response.data){
+                alert("添加成功")
+            }else {
+                alert("添加失败")
+            }
+        })
+    }
+
    
 });
