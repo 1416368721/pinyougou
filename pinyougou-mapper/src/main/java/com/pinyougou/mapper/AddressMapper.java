@@ -1,6 +1,7 @@
 package com.pinyougou.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import tk.mybatis.mapper.common.Mapper;
 
 import com.pinyougou.pojo.Address;
@@ -20,4 +21,6 @@ public interface AddressMapper extends Mapper<Address>{
     void deleteAll(@Param("ids")Serializable[] ids);
 
 
+    @Update("UPDATE `tb_address` SET is_default = 0;")
+    void updateIsDefault();
 }

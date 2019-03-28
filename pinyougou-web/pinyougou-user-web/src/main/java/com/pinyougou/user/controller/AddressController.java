@@ -64,8 +64,8 @@ public class AddressController {
      * 这里传过去的是 对象一个address对象
      * @return 返回的是布尔值 要么成功要么失败
      */
-    @PostMapping("/saveOrUpdate")
-    public boolean saveOrUpDate(@RequestBody Address address, HttpServletRequest request){
+    @PostMapping("/save")
+    public boolean save(@RequestBody Address address, HttpServletRequest request){
         System.out.println(address);
         try {
             //获得当前用户名么，这里的用户名id是itcast 就只有这一个用户 String类型
@@ -80,4 +80,45 @@ public class AddressController {
         }
         return false;
     }
+
+    /** 修改地址 */
+    @PostMapping("/update")
+    public boolean update(@RequestBody Address address){
+        try {
+            addressService.update(address);
+            return true;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /** 修改状态为1 就是设置默认地址 他传过来的是主键Id类型  然后就是没有别的了 本来是null的 */
+    @GetMapping("/saveAsDefault")
+    public boolean saveAsDefault(Long id){
+        //首先找到这个id对应下的address
+//        Address address = addressService.findOne(ids);
+//        System.out.println(address);
+        //迭代数组 获取里面的第一个值
+        try {
+        Address address = addressService.findOne(id);
+        address.setIsDefault("1");
+        addressService.update(address);
+        return true;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 通过查找主键Id来修改表中的某个值
+     */
+//    @GetMapping("/updateObjectById")
+//    public boolean updateObjectById(Long[] ids){
+//        for (Long id : ids) {
+//            addressService.update(ids);
+//        }
+//    }
 }

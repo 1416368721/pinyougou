@@ -35,6 +35,12 @@ app.controller('addressController',function ($scope,$controller,baseService) {
             $scope.citiesList = response.data;
         })
     };
+    //修改 这里传进去的是address不是别的
+    $scope.show = function (address) {
+        var jsonStr = JSON.stringify(address);
+        $scope.address=JSON.parse(jsonStr);
+    };
+
 
     /** 监听器 同上上*/
     /**  这里跟ng-model一样 */
@@ -78,27 +84,50 @@ app.controller('addressController',function ($scope,$controller,baseService) {
         }
     };
 
+
+
+
     //这里是存储是通过不同user来传的，那个ids根本就没有用，这里要传过去的的address
     $scope.saveOrUpdate = function () {
-        baseService.sendPost("/address/saveOrUpdate",$scope.address).then(function (response) {
-            //返回页面的是布尔值 要么是true要么是false
-            if (response.data){
-                //清空表单数据
-                $scope.address = {};
-            }else {
-                alert("添加地址失败！");
+        var url = "save";
+        if ($scope.address.id){
+            url = "update"
+        }
+        baseService.sendPost("/address/" + url,$scope.address).then(function (response) {
+                //返回页面的是布尔值 要么是true要么是false
+                if (response.data){
+                    //清空表单数据
+                    $scope.address = {};
+                    $scope.reload();
+                }else {
+                    alert("添加地址失败！");
+                }
             }
-        })
-    }
+        )
+    };
 
-    //通过锁定选择框的id来查找,如果查找的id有返回值的话就显示页面，但是既然都显示出来了，那里面肯定有呀
-    $scope.findById = function (id) {
-        baseService.get("/address/findByPage?id"+id).then(function (response) {
+    //设置默认地址 即是更改状态栏
+    $scope.saveAsDefault = function (id) {
+        baseService.sendGet("/address/saveAsDefault?id="+ id).then(function (response) {
             if (response.data){
-                $scope.show();
+                //如果修改成功的话，就重新加载页面
+                $scope.reload();
+            }else {
+                alert("设置默认失败")
+            }
+        });
+
+    //通过修改查找某个主键来修改表中的某个值 这里是状态值
+    $scope.updateObjectById = function () {
+        baseService.sendGet("/address/updateObjectById?id" + id).then(function (response) {
+            if (response.data){
+                $scope.reload();
+            }else {
+                alert("更新失败")
             }
         })
     }
+    };
 
     $scope.show = function () {
 

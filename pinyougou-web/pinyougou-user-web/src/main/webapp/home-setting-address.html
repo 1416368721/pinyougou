@@ -167,15 +167,15 @@ $(function(){
 
 <!--<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.data.js"></script>-->
 
-<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.js"></script>
+<!--<script type="text/javascript"	src="/js/plugins/citypicker/distpicker.js"></script>-->
 
-<script type="text/javascript" src="/pages/userInfo/distpicker.data.js"></script>
+<!--<script type="text/javascript" src="/pages/userInfo/distpicker.data.js"></script>-->
 
-<script type="text/javascript" src="/pages/userInfo/distpicker.js"></script>
+<!--<script type="text/javascript" src="/pages/userInfo/distpicker.js"></script>-->
 
 <script type="text/javascript" src="/js/plugins/upload/uploadPreview.js"></script>
 
-<script type="text/javascript" src="/pages/userInfo/main.js"></script>
+<!--<script type="text/javascript" src="/pages/userInfo/main.js"></script>-->
 
 <script type="text/javascript" src="/js/pages/main.js"></script>
 
@@ -258,11 +258,13 @@ $(function(){
                                         <td>{{entity.address}}</td>
                                         <td>{{entity.mobile}}</td>
                                         <td>
-                                            <a href="#">编辑</a>
-											<button type="button" class="btn btn-default"
+											<button type="button" data-toggle="modal" data-target=".edit" data-keyboard="false" class="sui-btn  btn-info add-new" ng-click="show(entity)">修改</button>
+											<button type="button" class="btn btn-danger"
 													ng-click="delete()"
 													title="删除" >删除</button>
-                                            默认地址
+											<button type="button" class="btn btn-success"
+													ng-click="saveAsDefault(entity.id)"
+													 >默认地址</button>
                                         </td>
                                     </tr>
                                     <!--<tr>-->
@@ -324,7 +326,11 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium" ng-model="address.mobile">
+                                                <input type="text" required="required" class="input-medium" ng-model="address.mobile" name="mobilbe">
+												<!--pattern正则表达式校验输入内容-->
+												<!--<span class="warning" ng-show="angularForm.phone.$error.required">*</span>-->
+												<!--<span class="warning" ng-show="angularForm.phone.$error.number">只能输入数字</span>-->
+												<!--<span class="warning" ng-show="angularForm.phone.$error.pattern">手机格式不正确</span>-->
                                             </div>
                                         </div>
                                         <div class="control-group">
