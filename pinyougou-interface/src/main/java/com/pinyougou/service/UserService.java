@@ -48,4 +48,6 @@ public interface UserService {
 
 /*修改用户信息*/
     void saveUserInfo(User user);
+	/*根据用户Id查询用户信息*/
+    User findUserById(String userId);
 }

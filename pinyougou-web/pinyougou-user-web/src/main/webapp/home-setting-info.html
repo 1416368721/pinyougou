@@ -20,7 +20,7 @@
 
 </head>
 
-<body ng-app="pinyougou" ng-controller="userController" ng-init="showName();findAllProvince();">
+<body ng-app="pinyougou" ng-controller="userController" ng-init="showName();findAllProvince();findUser();">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -249,7 +249,7 @@ $(function(){
                                     </div>
 
                                     <div class="control-group">
-                                        <label for="inputPassword" class="control-label">所在地：{{user.address.provinceId}}</label>
+                                        <label for="inputPassword" class="control-label">所在地：</label>
                                         <div class="controls">
                                             <div data-toggle="distpicker">
                                                 <div class="form-group area">
@@ -295,7 +295,7 @@ $(function(){
 
 									<div class="new-photo">
 										<p>当前头像：</p>
-										<img id="imgShow_WU_FILE_0" width="100"   height="100" src="{{user.headPic}}" alt="">
+										<img id="imgShow_WU_FILE_0" width="100"   height="100" src="{{pic}}" alt="">
 										<td><input type="file" id="file" />
 											<button class="btn btn-primary"
 													ng-click="upload()"
