@@ -35,6 +35,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
     };
     //最上面的全选框
 
+    //新的
     $scope.checkAll=function ($event) {
         if($event.target.checked){
       for (var a=0;$scope.carts.length>a;a++) {
