@@ -2,13 +2,15 @@
 app.controller('cartController', function ($scope, $controller, baseService) {
     // 继承baseController
     $controller('baseController', {$scope:$scope});
-    $scope.sellerName=[];
     $scope.ids=[];
-    $scope.xMids=[];
-    $scope.aDids=[];
-    $scope.checkedArr=[];
-    $scope.checkedArr2=[];
-    $scope.check2=false;
+    $scope.xids=[];
+    $scope.aids=[];
+    $scope.all=false;
+    $scope.sellerIds=[];
+    $scope.all2={};
+    $scope.all3={};
+    $scope.newCarts={};
+    $scope.orderItem2={};
     $scope.findIdsCart=function () {
         baseService.sendGet("/cart/findIdsCart")
             .then(function (response) {
@@ -31,117 +33,150 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                 }
             });
     };
+    //最上面的全选框
 
-    $scope.ckCart = [];
-    // 商品选择
-    $scope.updateSelection2=function ($event,id,i,cart) {
-        // alert(sellerName);
-        var sellerName=cart.sellerName;
-        // alert(sellerName);
-        // alert(cart.orderItems.length);
-        if("小米"==sellerName) {
-            // alert("小米");
-            if ($event.target.checked) {
-                $scope.xMids.push(id);
-            } else {
-                var idx = $scope.xMids.indexOf(id);
-                $scope.xMids.splice(idx, 1);
-            }
-            // alert($scope.xMids);
-            addArray();
-            // alert($scope.ids);
-            for (var b = 0; $scope.carts.length > b; b++) {
-                var orderItems = $scope.carts[b].orderItems;
-                // alert(orderItems);
-                for (var c = 0; orderItems.length > c; c++) {
-                    var orderItem = orderItems[c];
-                    // alert("遍历："+orderItem.itemId);
+    $scope.checkAll=function ($event) {
+        newCart();
+        if($event.target.checked){
+      for (var a=0;$scope.carts.length>a;a++) {
 
-                    for (var a = 0; $scope.ids.length > a; a++) {
-                        // alert($scope.ids[a]);
-                        if (orderItem.itemId == $scope.ids[a]) {
-                            // alert(orderItems[c].itemId);
-                            $scope.isSelectNum += orderItems[c].num;
-                            $scope.isSelectMoney += orderItems[c].totalFee;
-
-                        }
-                    }
+           $scope.all2[a] = true;
+           $scope.sellerIds.push($scope.carts[a].sellerName);
+          var seller =$scope.carts[a].sellerName;
+           // alert("卖家名字"+seller);
+          for(var d=0;$scope.newCarts[seller].length>d;d++){
+              $scope.all3[seller+d]=true;
+              }
+              // $scope[seller].push($scope.newCarts[seller].itemId);
+          }
+          // alert($scope.all2[a])
+      // alert($scope[seller]);
+            allids();
+      // alert("xiaomi="+$scope.xiaomi);
+      // alert("admin="+$scope.admin);
+      // alert("ids="+$scope.ids);
+      //
+      }else {
+            for (var b=0;$scope.carts.length>b;b++){
+                $scope.all2[b]='';
+                var seller=$scope.carts[b].sellerName;
+                for(var e=0;$scope.newCarts[seller].length>e;e++){
+                    $scope.all3[seller+e]='';
                 }
             }
-            // alert(cart.orderItems.length);
-            $scope.ckCart[cart.sellerName]=cart.orderItems.length==$scope.xMids.length;
-
-
-        }else if("品优购"==sellerName){
-            if ($event.target.checked) {
-                $scope.aDids.push(id);
-            } else {
-                var idx = $scope.aDids.indexOf(id);
-                $scope.aDids.splice(idx, 1);
-            }
-            addArray();
-            // alert($scope.ids);
-
-
-            $scope.ckCart[cart.sellerName]=cart.orderItems.length==$scope.aDids.length;
-
-
+            $scope.sellerIds=[];
+            $scope.ids=[];
         }
-        // alert($scope.ckAll[0]);
-           // alert($scope.ckAll);
+        // alert($scope.sellerIds);
+        // alert("xiaomi="+$scope.xiaomi);
+        // alert("admin="+$scope.admin);
+        // alert("ids="+$scope.ids);
+        addArray();
+    };
+    //商家全选
+    $scope.checkAll2=function ($event,cart,i) {
+      if($event.target.checked){
+          for(var c=0; cart.orderItems.length>c;c++){
+              $scope.all3[cart.sellerName+c]=true;
+              // alert(cart.orderItems[c].itemId);
+              $scope.ids.push(cart.orderItems[c].itemId);
+              // alert("选中:"+$scope.ids);
+          }
+              $scope.sellerIds.push(cart.sellerName)
+      }else {
+          for (var f=0;cart.orderItems.length>f;f++){
+              $scope.all3[cart.sellerName+f]='';
+              // alert("要删除："+cart.orderItems[f].itemId);
+              var idz=$scope.ids.indexOf(cart.orderItems[f].itemId);
+              $scope.ids.splice(idz,1);
 
-        // alert("品优购:"+$scope.aDids);
+          }
+              // alert("删除后ids:"+$scope.ids);
+            var idx=$scope.sellerIds.indexOf(cart.sellerName);
+            $scope.sellerIds.splice(idx,1);
+            // alert(cart.sellerId);
+             $scope[cart.sellerId]=[];
+        // alert("xiaomi="+$scope.xiaomi);
+        // alert("admin="+$scope.admin);
+      }
+        addArray();
+       // alert($scope.sellerIds.length);
+      $scope.all=$scope.length==$scope.sellerIds.length;
+    };
+    //商品选择
+    $scope.checkAll3=function ($event, id, i, sellerId,cart) {
+      if($event.target.checked){
+         // $scope[sellerId]商家变量用户车;
+         $scope[sellerId].push(id);
+         // alert($scope[sellerId]);
+         // 将id加入到ids；
+          $scope.ids.push(id);
+           // alert("选中="+$scope[sellerId]);
+          if($scope[sellerId].length==cart.orderItems.length){
+          //    商家选择购物车id与总购物车该商家id个数相同
+          //     alert(sellerId+"相等");
+          //    将商家名加入sellerIds数组中;
+              $scope.sellerIds.push(sellerId);
+
+          }
+      }else{
+           var idx=$scope[sellerId].indexOf(id);
+           $scope[sellerId].splice(idx,1);
+           var idx2=$scope.sellerIds.indexOf(cart.sellerName);
+           $scope.sellerIds.splice(idx2,1);
+          // alert($scope.sellerIds)
+      //    删除ids中的id
+          var idx3=$scope.ids.indexOf(id);
+          $scope.ids.splice(idx,1);
+      }
+
+        for(var z=0;$scope.carts.length>z;z++){
+            if($scope.carts[z].sellerId==sellerId) {
+                $scope.all2[z] = $scope[sellerId].length == $scope.orderItem2[sellerId];
+            }
+      //       if($scope.all2[z]){
+      //           $scope.sellerIds.push($scope.carts[z].sellerName)
+      //       }
+       }
+      addArray();
+        $scope.all=$scope.length==$scope.sellerIds.length;
+
     };
 
-    $scope.checkAll = function($event,cart){
-        if(cart.sellerName=="品优购") {
-            // 清空用户选择的ids
-            $scope.aDids = [];
-            var orderItem = cart.orderItems;
-             // alert("orderItem="+orderItem.length);
-            // 循环当前页数据数组
-            for (var i = 0; i < orderItem.length; i++) {
-                // alert(i);
-                // 初始化数组
-                $scope.checkedArr[cart.sellerName+i] = $event.target.checked;
-                // 判断是否选中
-                if ($event.target.checked) {
-                    // {id}
-                    $scope.aDids.push(orderItem[i].itemId);
-                    // alert($scope.aDids);
-                    addArray();
-                }else{
-                    $scope.aDids=[];
-                    addArray();
-                }
+    //重新封装购物车数据
+      function newCart(){
+          // alert("haha");
+        for(var x=0;$scope.carts.length>x;x++){
+           var cart=$scope.carts[x];
+           $scope.length=$scope.carts.length;
+           // alert($scope.length);
+           // 购物车数组长度
+            for(var y=0;cart.orderItems.length>y;y++){
+                var orderItem=cart.orderItems[y];
+                $scope.orderItem2[orderItem.sellerId]=y+1;
+                $scope[orderItem.sellerId]=[];
+                 // alert("1"+$scope.admin);
+                // alert("2"+$scope.xiaomi);
             }
-            // 重新赋值，再次绑定checkbox
-            $scope.ckAll = $scope.orderItem.length == $scope.xMids.length;
-        }else if(cart.sellerName=="小米"){
-            // 清空用户选择的ids
-            $scope.xMids = [];
-            var orderItem = cart.orderItems;
-            // alert(orderItem.length);
-            // 循环当前页数据数组
-            for (var i = 0; i < orderItem.length; i++) {
-                // alert(i);
-                // 初始化数组
-                $scope.checkedArr[cart.sellerName+i] = $event.target.checked;
-                // 判断是否选中
-                if ($event.target.checked) {
-                    // {id}
-                    $scope.xMids.push(orderItem[i].itemId);
-                    addArray();
-                }else {
-                    $scope.xMids=[];
-                    addArray();
-                }
-            }
-            // 重新赋值，再次绑定checkbox
-            $scope.ckAll = $scope.orderItem.length == $scope.xMids.length;
+           $scope.newCarts[cart.sellerName]=cart.orderItems;
         }
     };
 
+    //购物车全部数据重新封装
+    function allids () {
+      for(var k=0;$scope.carts.length>k;k++){
+          var orderItems =$scope.carts[k].orderItems;
+          for(var j=0;orderItems.length>j;j++){
+              var orderItem=orderItems[j];
+              var sellerId=orderItem.sellerId;
+              // alert("213"+sellerId);
+              $scope[sellerId].push(orderItem.itemId);
+              // alert("admin"+$scope.admin);
+              $scope.ids.push(orderItem.itemId);
+              // alert("ids"+$scope.ids);
+          }
+      }
+    }
 
     //更新页面上选择商品数量和金额
     // 查询用户的购物车
@@ -149,6 +184,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
         baseService.sendGet("/cart/findCart").then(function(response){
             // 获取响应数据
             $scope.carts = response.data;
+
 
             // 定义json对象封装统计的结果
             $scope.totalEntity = {totalNum : 0, totalMoney : 0};
@@ -168,6 +204,7 @@ app.controller('cartController', function ($scope, $controller, baseService) {
                     $scope.totalEntity.totalMoney += orderItem.totalFee;
                 }
             }
+
         });
     };
 
@@ -205,20 +242,8 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             }
     }
 
-
-    //将aDis和xMids数组整合到ids；
+    //将多个数组整合到ids；
     function addArray() {
-        $scope.ids=[];
-        if ($scope.aDids!=null&&$scope.aDids.length>0) {
-            for (var x = 0; $scope.aDids.length > x; x++) {
-                $scope.ids.push($scope.aDids[x]);
-            }
-        }
-        if ($scope.xMids!=null&&$scope.xMids.length>0) {
-            for (var y = 0; $scope.xMids.length > y; y++) {
-                $scope.ids.push($scope.xMids[y]);
-            }
-        }
         $scope.isSelectNum=0;
         $scope.isSelectMoney=0;
         for (var b = 0; $scope.carts.length > b; b++) {
@@ -238,5 +263,6 @@ app.controller('cartController', function ($scope, $controller, baseService) {
             }
         }
     }
+
 
 });
