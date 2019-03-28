@@ -42,9 +42,14 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
+    /**
+     * 设置默认地址
+     * @param address
+     */
     @Override
     public void update(Address address) {
         try {
+            addressMapper.updateIsDefault();
             addressMapper.updateByPrimaryKeySelective(address);
         }catch (Exception ex){
             throw new RuntimeException(ex);
@@ -67,7 +72,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address findOne(Serializable id) {
-        return null;
+        return addressMapper.selectByPrimaryKey(id);
     }
 
     @Override
