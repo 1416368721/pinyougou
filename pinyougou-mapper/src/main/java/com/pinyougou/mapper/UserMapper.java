@@ -27,4 +27,6 @@ public interface UserMapper extends Mapper<User>{
 
     @Update("update tb_user set phone = #{phone} where username = #{username}")
     void updatePhone(@Param("username") String username, @Param("phone") String phone);
+    @Select("SELECT * FROM tb_user where username=#{username}")
+    User findUserById(String username);
 }
