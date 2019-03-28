@@ -258,7 +258,7 @@ $(function(){
                                         <td>{{entity.address}}</td>
                                         <td>{{entity.mobile}}</td>
                                         <td>
-                                            <a href="#">编辑</a>
+											<button type="button" data-toggle="modal" data-target=".edit" data-keyboard="false" class="sui-btn  btn-info add-new" ng-click="show(entity)">修改</button>
 											<button type="button" class="btn btn-default"
 													ng-click="delete()"
 													title="删除" >删除</button>

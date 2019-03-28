@@ -44,7 +44,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void update(Address address) {
-
+        try {
+            addressMapper.updateByPrimaryKeySelective(address);
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
