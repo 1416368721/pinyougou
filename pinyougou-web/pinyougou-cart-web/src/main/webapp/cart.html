@@ -83,12 +83,12 @@
 				<div class="cart-item-list" ng-repeat="cart in carts">
 					<div class="cart-shop">
 						<!--商家全选框-->
-						{{all2}}
-						{{ids}}
-						{{orderItem2}}
+						<!--{{all2}}-->
+						<!--{{ids}}-->
+						<!--{{orderItem2}}-->
 						<!--{{newCarts}}-->
 						<input  ng-click="checkAll2($event,cart,$index)"
-								ng-model="all2[$index]"
+								ng-model="all2[cart.sellerId+$index]"
 								type="checkbox" name="" value="" />
 						<span class="shopname self">{{cart.sellerName}}</span>
 					</div>
